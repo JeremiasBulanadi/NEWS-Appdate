@@ -1,5 +1,33 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'constants/api_path.dart';
+import 'dart:convert';
+
+var response;
+
+const queryParameters = {
+  "source.locations.country[]": "PH",
+  "body": "COVID",
+};
+
+var uri = Uri.https(AYLIEN_AUTH, AYLIEN_PATH, queryParameters);
+
+Future<void> getData() async {
+  response = await http.get(
+    uri,
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'X-Application-ID': '7fe43d41',
+      'X-Application-Key': 'd8bed98809f16404c998cfde15e5557f',
+    },
+  );
+  //response = response.body == null ? "body is null" : response;
+  var items = [];
+  var data = jsonDecode(response.body);
+  print(data);
+}
 
 void main() {
   runApp(MyApp());
@@ -47,6 +75,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
   int _counter = 0;
 
   void _incrementCounter() {
