@@ -8,19 +8,18 @@ class NewsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Center(
       child: Card(
-        margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(story.title),
-            ],
-          ),
-        ),
-      ),
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            leading: Icon(Icons.album),
+            title: Text(story.title ?? "N/A"),
+            subtitle: Text(story.summary?.sentences?[0] ?? "N/A"),
+          )
+        ],
+      )),
     );
   }
 }
