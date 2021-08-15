@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:news_appdate/models/aylien_data.dart';
+import 'package:news_appdate/widgets/news_card.dart';
 import 'services/api_call.dart';
+
+AylienData? aylienData;
 
 void main() {
   runApp(MyApp());
@@ -52,6 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
+  List<Widget> newsCards = [];
   int _counter = 0;
 
   void _incrementCounter() {
@@ -62,7 +67,20 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
-      getData();
+      getNewsCards();
+      print("getNewsCards has been called");
+    });
+  }
+
+  void getNewsCards() async {
+    newsCards.clear();
+    aylienData = await getAylienData();
+    for (var i = 0; i < aylienData!.stories.length; i++) {
+      newsCards.add(NewsCard(story: aylienData!.stories[i]));
+      print(aylienData!.stories[i].title);
+    }
+    setState(() {
+      newsCards = newsCards;
     });
   }
 
@@ -107,6 +125,9 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
+            Column(
+              children: newsCards,
+            )
           ],
         ),
       ),
