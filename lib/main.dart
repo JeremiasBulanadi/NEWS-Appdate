@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:news_appdate/models/aylien_data.dart';
+import 'package:news_appdate/widgets/news_card.dart';
+import 'services/api_call.dart';
 import 'package:http/http.dart' as http;
 import 'constants/api_path.dart';
 import 'mapPage.dart';
@@ -6,6 +9,7 @@ import 'news.dart';
 import 'firstPage.dart';
 import 'testing.dart';
 
+AylienData? aylienData;
 void main() => runApp(AppDate());
 
 class AppDate extends StatelessWidget {

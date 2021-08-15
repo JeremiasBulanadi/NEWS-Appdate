@@ -1,20 +1,19 @@
 import '../constants/api_path.dart';
 import '../models/aylien_data.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 var response;
 var aylienData;
 
 const queryParameters = {
-  "source.locations.country[]": "UZ",
+  "source.locations.country[]": "PH",
   "language": "en",
   "body": "COVID",
 };
 
 var uri = Uri.https(AYLIEN_AUTH, AYLIEN_PATH, queryParameters);
 
-Future<void> getData() async {
+Future<AylienData> getAylienData() async {
   response = await http.get(
     uri,
     headers: <String, String>{
@@ -23,8 +22,7 @@ Future<void> getData() async {
       'X-Application-Key': AYLIEN_APP_KEY,
     },
   );
-  aylienData = aylienDataFromJson(response.body);
-  printData();
+  return aylienDataFromJson(response.body);
 }
 
 void printData() {
