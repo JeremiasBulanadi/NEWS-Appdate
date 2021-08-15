@@ -63,28 +63,28 @@ class Story {
     required this.translations,
   });
 
-  Author author;
-  String body;
-  List<Category> categories;
-  int charactersCount;
-  List<int> clusters;
-  Entities entities;
-  List<String> hashtags;
-  int id;
-  List<String> keywords;
-  String language;
-  StoryLinks links;
+  Author? author;
+  String? body;
+  List<Category>? categories;
+  int? charactersCount;
+  List<int>? clusters;
+  Entities? entities;
+  List<String>? hashtags;
+  int? id;
+  List<String>? keywords;
+  String? language;
+  StoryLinks? links;
   List<Media> media;
-  int paragraphsCount;
-  DateTime publishedAt;
-  int sentencesCount;
-  StorySentiment sentiment;
-  SocialSharesCount socialSharesCount;
-  Source source;
-  Summary summary;
-  String title;
-  int wordsCount;
-  int licenseType;
+  int? paragraphsCount;
+  DateTime? publishedAt;
+  int? sentencesCount;
+  StorySentiment? sentiment;
+  SocialSharesCount? socialSharesCount;
+  Source? source;
+  Summary? summary;
+  String? title;
+  int? wordsCount;
+  int? licenseType;
   Translations? translations;
 
   factory Story.fromJson(Map<String, dynamic> json) => Story(
@@ -118,25 +118,25 @@ class Story {
       );
 
   Map<String, dynamic> toJson() => {
-        "author": author.toJson(),
+        "author": author!.toJson(),
         "body": body,
-        "categories": List<dynamic>.from(categories.map((x) => x.toJson())),
+        "categories": List<dynamic>.from(categories!.map((x) => x.toJson())),
         "characters_count": charactersCount,
-        "clusters": List<dynamic>.from(clusters.map((x) => x)),
-        "entities": entities.toJson(),
-        "hashtags": List<dynamic>.from(hashtags.map((x) => x)),
+        "clusters": List<dynamic>.from(clusters!.map((x) => x)),
+        "entities": entities!.toJson(),
+        "hashtags": List<dynamic>.from(hashtags!.map((x) => x)),
         "id": id,
-        "keywords": List<dynamic>.from(keywords.map((x) => x)),
+        "keywords": List<dynamic>.from(keywords!.map((x) => x)),
         "language": language,
-        "links": links.toJson(),
+        "links": links!.toJson(),
         "media": List<dynamic>.from(media.map((x) => x.toJson())),
         "paragraphs_count": paragraphsCount,
-        "published_at": publishedAt.toIso8601String(),
+        "published_at": publishedAt!.toIso8601String(),
         "sentences_count": sentencesCount,
-        "sentiment": sentiment.toJson(),
-        "social_shares_count": socialSharesCount.toJson(),
-        "source": source.toJson(),
-        "summary": summary.toJson(),
+        "sentiment": sentiment!.toJson(),
+        "social_shares_count": socialSharesCount!.toJson(),
+        "source": source!.toJson(),
+        "summary": summary!.toJson(),
         "title": title,
         "words_count": wordsCount,
         "license_type": licenseType,
@@ -150,7 +150,7 @@ class Author {
     required this.name,
   });
 
-  int id;
+  int? id;
   Name? name;
 
   factory Author.fromJson(Map<String, dynamic> json) => Author(
@@ -183,12 +183,12 @@ class Category {
     required this.taxonomy,
   });
 
-  bool confident;
-  String id;
-  String label;
-  int level;
-  CategoryLinks links;
-  double score;
+  bool? confident;
+  String? id;
+  String? label;
+  int? level;
+  CategoryLinks? links;
+  double? score;
   Taxonomy? taxonomy;
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
@@ -206,7 +206,7 @@ class Category {
         "id": id,
         "label": label,
         "level": level,
-        "links": links.toJson(),
+        "links": links!.toJson(),
         "score": score,
         "taxonomy": taxonomyValues.reverse[taxonomy],
       };
@@ -218,8 +218,8 @@ class CategoryLinks {
     required this.self,
   });
 
-  String parent;
-  String self;
+  String? parent;
+  String? self;
 
   factory CategoryLinks.fromJson(Map<String, dynamic> json) => CategoryLinks(
         parent: json["parent"] == null ? null : json["parent"],
@@ -245,8 +245,8 @@ class Entities {
     required this.title,
   });
 
-  List<BodyElement> body;
-  List<BodyElement> title;
+  List<BodyElement>? body;
+  List<BodyElement>? title;
 
   factory Entities.fromJson(Map<String, dynamic> json) => Entities(
         body: List<BodyElement>.from(
@@ -256,8 +256,8 @@ class Entities {
       );
 
   Map<String, dynamic> toJson() => {
-        "body": List<dynamic>.from(body.map((x) => x.toJson())),
-        "title": List<dynamic>.from(title.map((x) => x.toJson())),
+        "body": List<dynamic>.from(body!.map((x) => x.toJson())),
+        "title": List<dynamic>.from(title!.map((x) => x.toJson())),
       };
 }
 
@@ -271,12 +271,12 @@ class BodyElement {
     required this.stockTicker,
   });
 
-  String id;
+  String? id;
   List<String>? types;
-  BodySentiment sentiment;
-  List<SurfaceForm> surfaceForms;
+  BodySentiment? sentiment;
+  List<SurfaceForm>? surfaceForms;
   BodyLinks? links;
-  String stockTicker;
+  String? stockTicker;
 
   factory BodyElement.fromJson(Map<String, dynamic> json) => BodyElement(
         id: json["id"],
@@ -294,9 +294,9 @@ class BodyElement {
         "id": id,
         "types":
             types == null ? null : List<dynamic>.from(types!.map((x) => x)),
-        "sentiment": sentiment.toJson(),
+        "sentiment": sentiment!.toJson(),
         "surface_forms":
-            List<dynamic>.from(surfaceForms.map((x) => x.toJson())),
+            List<dynamic>.from(surfaceForms!.map((x) => x.toJson())),
         "links": links == null ? null : links!.toJson(),
         "stock_ticker": stockTicker == null ? null : stockTicker,
       };
@@ -329,7 +329,7 @@ class BodySentiment {
   });
 
   Polarity? polarity;
-  double confidence;
+  double? confidence;
 
   factory BodySentiment.fromJson(Map<String, dynamic> json) => BodySentiment(
         polarity: polarityValues.map[json["polarity"]],
@@ -356,8 +356,8 @@ class SurfaceForm {
     required this.indices,
   });
 
-  String text;
-  List<List<int>> indices;
+  String? text;
+  List<List<int>>? indices;
 
   factory SurfaceForm.fromJson(Map<String, dynamic> json) => SurfaceForm(
         text: json["text"],
@@ -368,7 +368,7 @@ class SurfaceForm {
   Map<String, dynamic> toJson() => {
         "text": text,
         "indices": List<dynamic>.from(
-            indices.map((x) => List<dynamic>.from(x.map((x) => x)))),
+            indices!.map((x) => List<dynamic>.from(x.map((x) => x)))),
       };
 }
 
@@ -379,9 +379,9 @@ class StoryLinks {
     required this.clusters,
   });
 
-  String permalink;
-  String relatedStories;
-  String clusters;
+  String? permalink;
+  String? relatedStories;
+  String? clusters;
 
   factory StoryLinks.fromJson(Map<String, dynamic> json) => StoryLinks(
         permalink: json["permalink"],
@@ -406,12 +406,12 @@ class Media {
     required this.width,
   });
 
-  int contentLength;
+  int? contentLength;
   Format? format;
-  int height;
+  int? height;
   Type? type;
-  String url;
-  int width;
+  String? url;
+  int? width;
 
   factory Media.fromJson(Map<String, dynamic> json) => Media(
         contentLength:
@@ -448,8 +448,8 @@ class StorySentiment {
     required this.title,
   });
 
-  SentimentBody body;
-  SentimentBody title;
+  SentimentBody? body;
+  SentimentBody? title;
 
   factory StorySentiment.fromJson(Map<String, dynamic> json) => StorySentiment(
         body: SentimentBody.fromJson(json["body"]),
@@ -457,8 +457,8 @@ class StorySentiment {
       );
 
   Map<String, dynamic> toJson() => {
-        "body": body.toJson(),
-        "title": title.toJson(),
+        "body": body!.toJson(),
+        "title": title!.toJson(),
       };
 }
 
@@ -469,7 +469,7 @@ class SentimentBody {
   });
 
   Polarity? polarity;
-  double score;
+  double? score;
 
   factory SentimentBody.fromJson(Map<String, dynamic> json) => SentimentBody(
         polarity: polarityValues.map[json["polarity"]],
@@ -490,10 +490,10 @@ class SocialSharesCount {
     required this.reddit,
   });
 
-  List<dynamic> facebook;
-  List<dynamic> googlePlus;
-  List<dynamic> linkedin;
-  List<dynamic> reddit;
+  List<dynamic>? facebook;
+  List<dynamic>? googlePlus;
+  List<dynamic>? linkedin;
+  List<dynamic>? reddit;
 
   factory SocialSharesCount.fromJson(Map<String, dynamic> json) =>
       SocialSharesCount(
@@ -504,10 +504,10 @@ class SocialSharesCount {
       );
 
   Map<String, dynamic> toJson() => {
-        "facebook": List<dynamic>.from(facebook.map((x) => x)),
-        "google_plus": List<dynamic>.from(googlePlus.map((x) => x)),
-        "linkedin": List<dynamic>.from(linkedin.map((x) => x)),
-        "reddit": List<dynamic>.from(reddit.map((x) => x)),
+        "facebook": List<dynamic>.from(facebook!.map((x) => x)),
+        "google_plus": List<dynamic>.from(googlePlus!.map((x) => x)),
+        "linkedin": List<dynamic>.from(linkedin!.map((x) => x)),
+        "reddit": List<dynamic>.from(reddit!.map((x) => x)),
       };
 }
 
@@ -523,14 +523,14 @@ class Source {
     required this.scopes,
   });
 
-  String domain;
-  String homePageUrl;
-  int id;
-  List<Location> locations;
-  String logoUrl;
-  String name;
+  String? domain;
+  String? homePageUrl;
+  int? id;
+  List<Location>? locations;
+  String? logoUrl;
+  String? name;
   Rankings? rankings;
-  List<Scope> scopes;
+  List<Scope>? scopes;
 
   factory Source.fromJson(Map<String, dynamic> json) => Source(
         domain: json["domain"],
@@ -550,11 +550,11 @@ class Source {
         "domain": domain,
         "home_page_url": homePageUrl,
         "id": id,
-        "locations": List<dynamic>.from(locations.map((x) => x.toJson())),
+        "locations": List<dynamic>.from(locations!.map((x) => x.toJson())),
         "logo_url": logoUrl == null ? null : logoUrl,
         "name": name,
         "rankings": rankings == null ? null : rankings!.toJson(),
-        "scopes": List<dynamic>.from(scopes.map((x) => x.toJson())),
+        "scopes": List<dynamic>.from(scopes!.map((x) => x.toJson())),
       };
 }
 
@@ -564,8 +564,8 @@ class Location {
     required this.city,
   });
 
-  String country;
-  String city;
+  String? country;
+  String? city;
 
   factory Location.fromJson(Map<String, dynamic> json) => Location(
         country: json["country"],
@@ -583,14 +583,14 @@ class Rankings {
     required this.alexa,
   });
 
-  List<Alexa> alexa;
+  List<Alexa>? alexa;
 
   factory Rankings.fromJson(Map<String, dynamic> json) => Rankings(
         alexa: List<Alexa>.from(json["alexa"].map((x) => Alexa.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "alexa": List<dynamic>.from(alexa.map((x) => x.toJson())),
+        "alexa": List<dynamic>.from(alexa!.map((x) => x.toJson())),
       };
 }
 
@@ -601,9 +601,9 @@ class Alexa {
     required this.country,
   });
 
-  DateTime fetchedAt;
-  int rank;
-  String country;
+  DateTime? fetchedAt;
+  int? rank;
+  String? country;
 
   factory Alexa.fromJson(Map<String, dynamic> json) => Alexa(
         fetchedAt: DateTime.parse(json["fetched_at"]),
@@ -612,7 +612,7 @@ class Alexa {
       );
 
   Map<String, dynamic> toJson() => {
-        "fetched_at": fetchedAt.toIso8601String(),
+        "fetched_at": fetchedAt!.toIso8601String(),
         "rank": rank,
         "country": country == null ? null : country,
       };
@@ -625,9 +625,9 @@ class Scope {
     required this.level,
   });
 
-  String city;
-  String country;
-  String level;
+  String? city;
+  String? country;
+  String? level;
 
   factory Scope.fromJson(Map<String, dynamic> json) => Scope(
         city: json["city"],
@@ -647,14 +647,14 @@ class Summary {
     required this.sentences,
   });
 
-  List<String> sentences;
+  List<String>? sentences;
 
   factory Summary.fromJson(Map<String, dynamic> json) => Summary(
         sentences: List<String>.from(json["sentences"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
-        "sentences": List<dynamic>.from(sentences.map((x) => x)),
+        "sentences": List<dynamic>.from(sentences!.map((x) => x)),
       };
 }
 
@@ -663,14 +663,14 @@ class Translations {
     required this.en,
   });
 
-  En en;
+  En? en;
 
   factory Translations.fromJson(Map<String, dynamic> json) => Translations(
         en: En.fromJson(json["en"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "en": en.toJson(),
+        "en": en!.toJson(),
       };
 }
 
@@ -680,8 +680,8 @@ class En {
     required this.title,
   });
 
-  String body;
-  String title;
+  String? body;
+  String? title;
 
   factory En.fromJson(Map<String, dynamic> json) => En(
         body: json["body"],

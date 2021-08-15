@@ -7,7 +7,8 @@ var response;
 var aylienData;
 
 const queryParameters = {
-  "source.locations.country[]": "PH",
+  "source.locations.country[]": "UZ",
+  "language": "en",
   "body": "COVID",
 };
 
@@ -23,11 +24,12 @@ Future<void> getData() async {
     },
   );
   aylienData = aylienDataFromJson(response.body);
+  printData();
 }
 
-void printData() async {
+void printData() {
   print("aight, we're printin");
   for (var i = 0; i < aylienData.stories.length; i++) {
-    print(aylienData.stories[i].body);
+    print(aylienData.stories[i].title);
   }
 }
