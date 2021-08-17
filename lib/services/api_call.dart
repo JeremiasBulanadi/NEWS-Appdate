@@ -2,11 +2,8 @@ import '../constants/api_path.dart';
 import '../models/aylien_data.dart';
 import 'package:http/http.dart' as http;
 
-var response;
-var aylienData;
-
 const queryParameters = {
-  "source.locations.country[]": "PH",
+  "source.locations.country[]": "US",
   "language": "en",
   "body": "COVID",
 };
@@ -14,7 +11,7 @@ const queryParameters = {
 var uri = Uri.https(AYLIEN_AUTH, AYLIEN_PATH, queryParameters);
 
 Future<AylienData> getAylienData() async {
-  response = await http.get(
+  var response = await http.get(
     uri,
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
@@ -23,11 +20,4 @@ Future<AylienData> getAylienData() async {
     },
   );
   return aylienDataFromJson(response.body);
-}
-
-void printData() {
-  print("aight, we're printin");
-  for (var i = 0; i < aylienData.stories.length; i++) {
-    print(aylienData.stories[i].title);
-  }
 }

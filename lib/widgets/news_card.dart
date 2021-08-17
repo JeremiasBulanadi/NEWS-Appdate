@@ -13,6 +13,7 @@ class NewsCard extends StatelessWidget {
           child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          //Image.network(story.media.first.url ?? "../assets/stop.png"),
           ListTile(
             leading: Icon(Icons.album),
             title: Text(story.title ?? "N/A"),
