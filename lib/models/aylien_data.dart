@@ -3,6 +3,10 @@
 
 //    A lot of things were "patched", this is an error prone area
 
+// TODO:
+// - Get locations from entities
+// - Try and implement Google Places API
+
 import 'package:meta/meta.dart';
 import 'dart:convert';
 
