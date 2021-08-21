@@ -3,10 +3,7 @@
 
 //    A lot of things were "patched", this is an error prone area
 
-// TODO:
-// - Get locations from entities
-// - Try and implement Google Places API
-
+import 'package:geocoding/geocoding.dart';
 import 'package:meta/meta.dart';
 import 'dart:convert';
 
@@ -38,6 +35,56 @@ class AylienData {
         "stories": List<dynamic>.from(stories.map((x) => x.toJson())),
         "published_at.start": publishedAtStart.toIso8601String(),
       };
+
+  // What you may see before you may seem like a big hot mess
+  // and you would be correct
+  // but rejoice, as this single function alone
+  // has made me decide to fully comment on every what, why, and how
+  // of every snippet of madness that is in this codebase
+  Future<void> getNewsLocations() async {
+    for (int i = 0; i < this.stories.length; i++) {
+      List<String> locations = [];
+      for (int j = 0; j < this.stories[i].entities!.body!.length; j++) {
+        print(this.stories[i].entities!.body![j].types);
+        if (this.stories[i].entities!.body![j].types == null) {
+          print("Type list is null");
+        } else if ( // the word should be either tagged as a "Location" or "Organization" since a lot of places are tagged as only Organization for some reason
+            this.stories[i].entities!.body![j].types!.contains(
+                    "Location") && // We're also trying to exclude country and city location terms
+                (!this
+                        .stories[i]
+                        .entities!
+                        .body![j]
+                        .types!
+                        .contains("Country") &&
+                    !this
+                        .stories[i]
+                        .entities!
+                        .body![j]
+                        .types!
+                        .contains("City") &&
+                    !this
+                        .stories[i]
+                        .entities!
+                        .body![j]
+                        .types!
+                        .contains("State_(polity)") &&
+                    !this
+                        .stories[i]
+                        .entities!
+                        .body![j]
+                        .types!
+                        .contains("Sovereign_state"))) {
+          //POINT OF ERROR
+          print(this.stories[i].entities!.body![j].surfaceForms![0].text);
+          locations.add(
+              this.stories[i].entities!.body![j].surfaceForms![0].text ??
+                  "N/A");
+        }
+      }
+      this.stories[i].locations = locations;
+    }
+  }
 }
 
 class Story {
@@ -90,6 +137,10 @@ class Story {
   int? wordsCount;
   int? licenseType;
   Translations? translations;
+  // 3 below are not from AYLIEN API
+  List<String>? locations;
+  List<Location>? latlngs;
+  List<Placemark>? placemarks;
 
   factory Story.fromJson(Map<String, dynamic> json) => Story(
         author: Author.fromJson(json["author"]),

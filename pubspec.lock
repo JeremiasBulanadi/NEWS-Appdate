@@ -81,7 +81,21 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  geolocator:
+  geocoding:
+    dependency: "direct main"
+    description:
+      name: geocoding
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
+  geocoding_platform_interface:
+    dependency: transitive
+    description:
+      name: geocoding_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
+  http:
     dependency: "direct main"
     description:
       name: geolocator
@@ -178,7 +192,7 @@ packages:
       name: plugin_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+    version: "2.0.1"
   search_map_place:
     dependency: "direct main"
     description:
