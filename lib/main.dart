@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_appdate/models/aylien_data.dart';
+import 'package:news_appdate/services/geocoding.dart';
 import 'package:news_appdate/widgets/news_card.dart';
 import 'services/api_call.dart';
 
@@ -35,6 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    getLocation();
   }
 
   List<Widget> newsCards = [];
@@ -49,6 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void getNewsCards() async {
     newsCards.clear();
     aylienData = await getAylienData();
+    aylienData!.getNewsLocations();
     for (var i = 0; i < aylienData!.stories.length; i++) {
       newsCards.add(NewsCard(story: aylienData!.stories[i]));
       print("TITLE:");
@@ -56,8 +59,10 @@ class _MyHomePageState extends State<MyHomePage> {
       print("SOURCE:");
       print(aylienData!.stories[i].source?.domain ?? "N/A");
       print("LOCATIONS:");
-      print(aylienData!.stories[i].source?.locations?.first.city ?? "N/A");
+      print(aylienData!.stories[i].locations);
+      print("");
     }
+
     setState(() {
       newsCards = newsCards;
     });
