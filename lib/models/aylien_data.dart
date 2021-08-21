@@ -1,7 +1,10 @@
 //    from https://app.quicktype.io/ with some amount of editing required
 //     final aylienData = aylienDataFromJson(jsonString);
-
 //    A lot of things were "patched", this is an error prone area
+
+//  This code just parses/maps the json response into actual json data
+//  with the exception of the getNewsLocation function
+//  I will not elaborate further cuz there's too much here to explain
 
 import 'package:geocoding/geocoding.dart';
 import 'package:meta/meta.dart';
@@ -41,47 +44,63 @@ class AylienData {
   // but rejoice, as this single function alone
   // has made me decide to fully comment on every what, why, and how
   // of every snippet of madness that is in this codebase
+  // This one is not from app.quicktype.io
+  // This function gets entities that "might" be the location of the news
   Future<void> getNewsLocations() async {
+    // Iteratates through all the news stories
     for (int i = 0; i < this.stories.length; i++) {
+      // temporary storage for possible locations
       List<String> locations = [];
+
+      // Iterattes through all entities in the news story
       for (int j = 0; j < this.stories[i].entities!.body!.length; j++) {
+        // for debugging purposes, might delete later
         print(this.stories[i].entities!.body![j].types);
+        // sometimes entities don't have types, this is a workaround null checker
         if (this.stories[i].entities!.body![j].types == null) {
           print("Type list is null");
-        } else if ( // the word should be either tagged as a "Location" or "Organization" since a lot of places are tagged as only Organization for some reason
-            this.stories[i].entities!.body![j].types!.contains(
-                    "Location") && // We're also trying to exclude country and city location terms
+        } else if ( // We're trying to get entities that...
+            // ...have "Location" as a type
+            this.stories[i].entities!.body![j].types!.contains("Location") &&
+                // ...is not a country (We don't want a marker on the country)
                 (!this
                         .stories[i]
                         .entities!
                         .body![j]
                         .types!
                         .contains("Country") &&
+                    // ...is not a city (We're already filtering news by city)
                     !this
                         .stories[i]
                         .entities!
                         .body![j]
                         .types!
                         .contains("City") &&
+                    // ...is not a state (States are too broad of a location)
                     !this
                         .stories[i]
                         .entities!
                         .body![j]
                         .types!
                         .contains("State_(polity)") &&
+                    // ...is not a Sovereign State (I still am not entirely sure what a sovereign state is but it is still, for the most part, broad)
                     !this
                         .stories[i]
                         .entities!
                         .body![j]
                         .types!
                         .contains("Sovereign_state"))) {
-          //POINT OF ERROR
+          // For debugging purposes, really fills up the console, will probs delete
           print(this.stories[i].entities!.body![j].surfaceForms![0].text);
+          // Adds the filtered entity in the locations array
+          // or the string "N/A" if its null, which is NEVER the case since we already have a null checker in place
+          // but Dart tells me I can't have ambiguouty stored in a non-nullable variable
           locations.add(
               this.stories[i].entities!.body![j].surfaceForms![0].text ??
                   "N/A");
         }
       }
+      // adds the locations values for the story's locations property
       this.stories[i].locations = locations;
     }
   }
