@@ -1,3 +1,7 @@
+// Tried this for quick prototyping
+// Broken as heck
+// Will be replaced entirely
+
 import 'package:flutter/material.dart';
 import 'package:news_appdate/models/aylien_data.dart';
 

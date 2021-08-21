@@ -1,3 +1,7 @@
+// The Main file
+// A lot of these are made for prototyping
+// Most things will be changed
+
 import 'package:flutter/material.dart';
 import 'package:news_appdate/models/aylien_data.dart';
 import 'package:news_appdate/services/geocoding.dart';
@@ -10,6 +14,8 @@ import 'news.dart';
 import 'firstPage.dart';
 import 'testing.dart';
 
+// This is where the json object should be stored
+// Not sure if it should be a global object
 AylienData? aylienData;
 void main() => runApp(AppDate());
 
