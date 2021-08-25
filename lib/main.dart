@@ -84,10 +84,6 @@ class _MyHomePageState extends State<MyHomePage> {
       print(aylienData!.stories![i].locations);
       print("");
     }
-    // updates screen for news cards
-    setState(() {
-      newsCards = newsCards;
-    });
   }
 
   @override
