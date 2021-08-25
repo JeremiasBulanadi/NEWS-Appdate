@@ -9,7 +9,9 @@
 
 import 'package:geocoding/geocoding.dart';
 import 'package:meta/meta.dart';
+import 'package:news_appdate/models/location.dart';
 import 'dart:convert';
+import 'package:news_appdate/services/geocoding.dart';
 
 AylienData aylienDataFromJson(String str) =>
     AylienData.fromJson(json.decode(str));
@@ -54,18 +56,20 @@ class AylienData {
   // has made me decide to fully comment on every what, why, and how
   // of every snippet of madness that is in this codebase
   // This one is not from app.quicktype.io
-  // This function gets entities that "might" be the location of the news
-  Future<void> getNewsLocations() async {
+  // This function gets entities that "might" be the location of the news...
+  // and instantiates them as Location objects to be stored in each Story object
+  Future<void> getNewsLocations() async q{
     // Iteratates through all the news stories
     for (int i = 0; i < this.stories!.length; i++) {
       // temporary storage for possible locations
-      List<String> locations = [];
+      List<Loc> locations = [];
 
       // Iterattes through all entities in the news story
       for (int j = 0; j < this.stories![i].entities!.length; j++) {
+        
         // for debugging purposes, might delete later
-
         print(this.stories![i].entities![j].types);
+        
         // sometimes entities don't have types, this is a workaround null checker
         if (this.stories![i].entities![j].types == null) {
           print("Type list is null");
@@ -88,13 +92,16 @@ class AylienData {
                         .entities![j]
                         .types!
                         .contains("Sovereign_state"))) {
-          // For debugging purposes, really fills up the console, will probs delete
-          print(this.stories![i].entities![j].body!.surfaceForms![0].text);
-          // Adds the filtered entity in the locations array
-          // or the string "N/A" if its null, which is NEVER the case since we already have a null checker in place
-          // but Dart tells me I can't have ambiguouty stored in a non-nullable variable
-          locations
-              .add(this.stories![i].entities![j].body!.surfaceForms![0].text);
+          // Gotta have this
+          if (this.stories![i].entities![j].body!.surfaceForms!.length > 0) {
+           
+            // For debugging purposes, really fills up the console, will probs delete
+            print(this.stories![i].entities![j].body!.surfaceForms![0].text);
+           
+            // Instantiates the filtered entity and stores it in the locations array
+            locations.add(
+                Loc(this.stories![i].entities![j].body!.surfaceForms![0].text));
+          }
         }
       }
       // adds the locations values for the story's locations property
@@ -153,10 +160,8 @@ class Story {
   String title;
   int wordsCount;
   int licenseType;
-  // 3 below are not from AYLIEN API
-  List<String>? locations;
-  List<Location>? latlngs;
-  List<Placemark>? placemarks;
+  // below are not from AYLIEN API
+  List<Loc>? locations;
 
   factory Story.fromJson(Map<String, dynamic> json) => Story(
         author: Author.fromJson(json["author"]),
@@ -460,8 +465,8 @@ class EntityLinks {
     required this.wikidata,
   });
 
-  String wikipedia;
-  String wikidata;
+  String? wikipedia;
+  String? wikidata;
 
   factory EntityLinks.fromJson(Map<String, dynamic> json) => EntityLinks(
         wikipedia: json["wikipedia"],
@@ -481,9 +486,9 @@ class StoryLinks {
     required this.clusters,
   });
 
-  String permalink;
-  String relatedStories;
-  String clusters;
+  String? permalink;
+  String? relatedStories;
+  String? clusters;
 
   factory StoryLinks.fromJson(Map<String, dynamic> json) => StoryLinks(
         permalink: json["permalink"],

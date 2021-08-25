@@ -46,7 +46,6 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     // This function gets the locational coordinates of the user
-    getLocation();
   }
 
   // Storage for news cards
@@ -73,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // Updates the stories' locations values
     aylienData!.getNewsLocations();
     // Adds NewsCard widgets to newsCards list
-    for (var i = 0; i < aylienData!.stories!.length; i++) {
+    for (int i = 0; i < aylienData!.stories!.length; i++) {
       newsCards.add(NewsCard(story: aylienData!.stories![i]));
       // For debugging purposes
       print("TITLE:");
@@ -81,7 +80,11 @@ class _MyHomePageState extends State<MyHomePage> {
       print("SOURCE:");
       print(aylienData!.stories![i].source?.domain ?? "N/A");
       print("LOCATIONS:");
-      print(aylienData!.stories![i].locations);
+      if (aylienData!.stories![i].locations!.length > 0) {
+        for (int j = 0; i < aylienData!.stories![i].locations!.length; i++) {
+          print(aylienData!.stories![i].locations![j].text);
+        }
+      }
       print("");
     }
   }
