@@ -2,6 +2,9 @@
 // A lot of these are made for prototyping
 // Most things will be changed
 
+// TODO:
+// - Make something that will inform if API isn't working
+
 import 'package:flutter/material.dart';
 import 'package:news_appdate/models/aylien_data.dart';
 import 'package:news_appdate/services/geocoding.dart';
@@ -70,15 +73,15 @@ class _MyHomePageState extends State<MyHomePage> {
     // Updates the stories' locations values
     aylienData!.getNewsLocations();
     // Adds NewsCard widgets to newsCards list
-    for (var i = 0; i < aylienData!.stories.length; i++) {
-      newsCards.add(NewsCard(story: aylienData!.stories[i]));
+    for (var i = 0; i < aylienData!.stories!.length; i++) {
+      newsCards.add(NewsCard(story: aylienData!.stories![i]));
       // For debugging purposes
       print("TITLE:");
-      print(aylienData!.stories[i].title);
+      print(aylienData!.stories![i].title);
       print("SOURCE:");
-      print(aylienData!.stories[i].source?.domain ?? "N/A");
+      print(aylienData!.stories![i].source?.domain ?? "N/A");
       print("LOCATIONS:");
-      print(aylienData!.stories[i].locations);
+      print(aylienData!.stories![i].locations);
       print("");
     }
     // updates screen for news cards

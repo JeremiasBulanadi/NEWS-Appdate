@@ -20,7 +20,7 @@ class NewsCard extends StatelessWidget {
           //Image.network(story.media.first.url ?? "../assets/stop.png"),
           ListTile(
             leading: Icon(Icons.album),
-            title: Text(story.title ?? "N/A"),
+            title: Text(story.title),
             subtitle: Text(story.summary?.sentences?[0] ?? "N/A"),
           )
         ],
