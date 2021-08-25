@@ -2,6 +2,9 @@
 // A lot of these are made for prototyping
 // Most things will be changed
 
+// TODO:
+// - Make something that will inform if API isn't working
+
 import 'package:flutter/material.dart';
 import 'package:news_appdate/models/aylien_data.dart';
 import 'package:news_appdate/services/geocoding.dart';
