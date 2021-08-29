@@ -22,7 +22,7 @@ const queryParameters = {
   // only accepts [ en, de, fr, it, es, pt, ru, nl, ar, tr, zh-tw, zh-cn, sv, da.]
   "language": "en",
   // Look for news that have this words in their body
-  "body": "San Fernando Pampanga",
+  "entities.surface_forms.text[]": 'Clark City',
   // More parameter options available
   // refer to https://docs.aylien.com/newsapi/endpoints/#http-parameters-3
 };

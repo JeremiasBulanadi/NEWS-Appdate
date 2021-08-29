@@ -97,6 +97,8 @@ bool isSpecificLocation(List<String>? types) {
       types!.contains("Location") &&
           // ...is not a country (We don't want a marker on the country)
           (!types.contains("Country") &&
+              // ? Cities maybe too much ?
+              !types.contains("City") &&
               // ...is not a state (States are too broad of a location)
               !types.contains("State_(polity)") &&
               // ...is not a Sovereign State (I still am not entirely sure what a sovereign state is but it is still, for the most part, broad)
