@@ -81,12 +81,13 @@ class _MyHomePageState extends State<MyHomePage> {
       print(aylienData!.stories![i].source?.domain ?? "N/A");
       print("LOCATIONS:");
       if (aylienData!.stories![i].locations!.length > 0) {
-        for (int j = 0; i < aylienData!.stories![i].locations!.length; i++) {
+        for (int j = 0; j < aylienData!.stories![i].locations!.length; j++) {
           print(aylienData!.stories![i].locations![j].text);
         }
       }
       print("");
     }
+    print("And that's a wrap folks...");
   }
 
   @override
