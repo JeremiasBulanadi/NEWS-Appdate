@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
 
 // Gets user location details
@@ -34,9 +35,13 @@ Future<Location?> getLatLng(String location) async {
 // ...Unless latlng couldn't be found, in which case it returns null
 Future<Placemark?> getPlacemark(Location? location) async {
   if (location != null) {
-    List<Placemark> placemarks =
-        await placemarkFromCoordinates(location.latitude, location.longitude);
-    return placemarks[0];
+    try {
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(location.latitude, location.longitude);
+      return placemarks[0];
+    } on PlatformException catch (e) {
+      return null;
+    }
   } else {
     return null;
   }
