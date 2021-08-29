@@ -58,7 +58,7 @@ class AylienData {
   // This one is not from app.quicktype.io
   // This function gets entities that "might" be the location of the news...
   // and instantiates them as Location objects to be stored in each Story object
-  Future<void> getNewsLocations() async q{
+  Future<void> getNewsLocations() async {
     // Iteratates through all the news stories
     for (int i = 0; i < this.stories!.length; i++) {
       // temporary storage for possible locations
@@ -66,38 +66,18 @@ class AylienData {
 
       // Iterattes through all entities in the news story
       for (int j = 0; j < this.stories![i].entities!.length; j++) {
-        
         // for debugging purposes, might delete later
         print(this.stories![i].entities![j].types);
-        
+
         // sometimes entities don't have types, this is a workaround null checker
         if (this.stories![i].entities![j].types == null) {
           print("Type list is null");
-        } else if ( // We're trying to get entities that...
-            // ...have "Location" as a type
-            this.stories![i].entities![j].types!.contains("Location") &&
-                // ...is not a country (We don't want a marker on the country)
-                (!this.stories![i].entities![j].types!.contains("Country") &&
-                    // ...is not a city (We're already filtering news by city)
-                    !this.stories![i].entities![j].types!.contains("City") &&
-                    // ...is not a state (States are too broad of a location)
-                    !this
-                        .stories![i]
-                        .entities![j]
-                        .types!
-                        .contains("State_(polity)") &&
-                    // ...is not a Sovereign State (I still am not entirely sure what a sovereign state is but it is still, for the most part, broad)
-                    !this
-                        .stories![i]
-                        .entities![j]
-                        .types!
-                        .contains("Sovereign_state"))) {
+        } else if (isSpecificLocation(this.stories![i].entities![j].types)) {
           // Gotta have this
           if (this.stories![i].entities![j].body!.surfaceForms!.length > 0) {
-           
             // For debugging purposes, really fills up the console, will probs delete
             print(this.stories![i].entities![j].body!.surfaceForms![0].text);
-           
+
             // Instantiates the filtered entity and stores it in the locations array
             locations.add(
                 Loc(this.stories![i].entities![j].body!.surfaceForms![0].text));
@@ -108,6 +88,19 @@ class AylienData {
       this.stories![i].locations = locations == null ? [] : locations;
     }
   }
+}
+
+// Filters depending on the what type we want to include/exclude
+bool isSpecificLocation(List<String>? types) {
+  return // We're trying to get entities that...
+      // ...have "Location" as a type
+      types!.contains("Location") &&
+          // ...is not a country (We don't want a marker on the country)
+          (!types.contains("Country") &&
+              // ...is not a state (States are too broad of a location)
+              !types.contains("State_(polity)") &&
+              // ...is not a Sovereign State (I still am not entirely sure what a sovereign state is but it is still, for the most part, broad)
+              !types.contains("Sovereign_state"));
 }
 
 class Story {
@@ -251,11 +244,11 @@ class Category {
   });
 
   bool confident;
-  String id;
-  String label;
+  String? id;
+  String? label;
   int level;
   double score;
-  String taxonomy;
+  String? taxonomy;
   CategoryLinks? links;
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
@@ -286,7 +279,7 @@ class CategoryLinks {
   });
 
   String? parent;
-  String self;
+  String? self;
 
   factory CategoryLinks.fromJson(Map<String, dynamic> json) => CategoryLinks(
         parent: json["parent"] == null ? null : json["parent"],
@@ -513,7 +506,7 @@ class Media {
     required this.width,
   });
 
-  int contentLength;
+  int? contentLength;
   String format;
   int height;
   String type;
