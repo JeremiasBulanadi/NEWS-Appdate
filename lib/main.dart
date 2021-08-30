@@ -6,6 +6,10 @@
 // - Make something that will inform if API isn't working
 
 import 'package:flutter/material.dart';
+import 'mapPage.dart';
+import 'news.dart';
+import 'firstPage.dart';
+import 'testing.dart';
 import 'package:news_appdate/models/aylien_data.dart';
 import 'package:news_appdate/services/geocoding.dart';
 import 'package:news_appdate/widgets/news_card.dart';
