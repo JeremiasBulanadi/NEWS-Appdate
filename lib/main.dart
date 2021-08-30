@@ -37,22 +37,16 @@ class AppDate extends StatelessWidget {
   }
 }
 
-
-
 class HomePage extends StatefulWidget {
-  HomePage({Key key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  List<NewsCard> newsCards = [];
   int selectedPage = 0;
-  final _pageOptions = [
-    SuggestionPage(),
-    MapPage(),
-    NewsCards(),
-    TestPage()
-  ];
+  final _pageOptions = [SuggestionPage(), MapPage(), NewsCards(), TestPage()];
 
   @override
   Widget build(BuildContext context) {
@@ -63,26 +57,36 @@ class _HomePageState extends State<HomePage> {
       ),
       backgroundColor: Colors.white,
       body: _pageOptions[selectedPage],
-      bottomNavigationBar: BottomNavigationBar(items: [
-        BottomNavigationBarItem(icon: Icon(Icons.home, size: 30),
-        title: Text('Home')),
-        BottomNavigationBarItem(icon: Icon(Icons.map, size: 30),
-        title: Text('Map')),
-        BottomNavigationBarItem(icon: Icon(Icons.dehaze, size: 30,),
-        title: Text('News')),
-        BottomNavigationBarItem(icon: Icon(Icons.add, size: 30,),
-        title: Text('Test')),
-      ],
-      selectedItemColor: Colors.green,
-      elevation: 5.0,
-      unselectedItemColor: Colors.green[900],
-      currentIndex: selectedPage,
-      backgroundColor: Colors.white,
-      onTap: (index){
-        setState((){
-          selectedPage = index;
-        });
-      },),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home, size: 30), title: Text('Home')),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.map, size: 30), title: Text('Map')),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.dehaze,
+                size: 30,
+              ),
+              title: Text('News')),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.add,
+                size: 30,
+              ),
+              title: Text('Test')),
+        ],
+        selectedItemColor: Colors.green,
+        elevation: 5.0,
+        unselectedItemColor: Colors.green[900],
+        currentIndex: selectedPage,
+        backgroundColor: Colors.white,
+        onTap: (index) {
+          setState(() {
+            selectedPage = index;
+          });
+        },
+      ),
     );
   }
 }
