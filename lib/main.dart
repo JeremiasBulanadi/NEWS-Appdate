@@ -4,8 +4,12 @@ import 'package:news_appdate/screens/wrapper.dart';
 import 'services/auth.dart';
 
 void main() async {
+  // We need this to run first to make sure that firebase is running before main app is running
   WidgetsFlutterBinding.ensureInitialized();
+
+  // We need to initialize Firebase first before we can use it
   await Firebase.initializeApp();
+
   runApp(MyApp());
 }
 
