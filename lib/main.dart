@@ -16,10 +16,6 @@ import 'package:news_appdate/widgets/news_card.dart';
 import 'services/api_call.dart';
 import 'package:http/http.dart' as http;
 import 'constants/api_path.dart';
-import 'mapPage.dart';
-import 'news.dart';
-import 'firstPage.dart';
-import 'testing.dart';
 
 // This is where the json object should be stored
 // Not sure if it should be a global object
