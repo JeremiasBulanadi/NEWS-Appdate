@@ -1,24 +1,22 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:news_appdate/screens/wrapper.dart';
-import 'services/auth.dart';
 
-void main() async {
-  // We need this to run first to make sure that firebase is running before main app is running
-  WidgetsFlutterBinding.ensureInitialized();
+import 'screens/sign_in_screen.dart';
 
-  // We need to initialize Firebase first before we can use it
-  await Firebase.initializeApp();
-
+void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Wrapper(),
+      title: 'FlutterFire Samples',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.indigo,
+        brightness: Brightness.dark,
+      ),
+      home: SignInScreen(),
     );
   }
 }
