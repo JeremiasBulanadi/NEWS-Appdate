@@ -1,10 +1,9 @@
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
-
-import 'package:search_map_place/search_map_place.dart';
 
 class MapPage extends StatefulWidget {
   @override
@@ -18,6 +17,7 @@ class _MapPageState extends State<MapPage> {
   Location location = new Location();
   Location _locationTracker = Location();
   GoogleMapController? _controller;
+  late Position _currentPosition;
   @override
   static final CameraPosition initialLocation = CameraPosition(
     target: LatLng(15.132722, 120.589111),
@@ -25,7 +25,15 @@ class _MapPageState extends State<MapPage> {
   );
 
   void updateMarker(LocationData newLocationData) {
-    LatLng latLng = LatLng(newLocationData.latitude, newLocationData.longitude);
+    Geolocator.getCurrentPosition().then((Position position){
+      setState(() {
+        _currentPosition = position;
+      });
+    });
+    var lastpos = Geolocator.getLastKnownPosition();
+    var lat = _currentPosition.latitude;
+
+    LatLng latLng = LatLng(_currentPosition.latitude, _currentPosition.longitude);
     this.setState(() {
       marker = Marker(
           markerId: MarkerId('mylocation'), position: latLng, draggable: false);
@@ -42,12 +50,12 @@ class _MapPageState extends State<MapPage> {
         _locationSubscription!.cancel();
       }
       _locationSubscription =
-          _locationTracker.onLocationChanged().listen((newLocalData) {
+          _locationTracker.onLocationChanged.listen((newLocalData) {
         if (_controller != null) {
           _controller!.animateCamera(CameraUpdate.newCameraPosition(
               CameraPosition(
                   bearing: 192.8334901395799,
-                  target: LatLng(newLocalData.latitude, newLocalData.longitude),
+                  target: LatLng(_currentPosition.latitude, _currentPosition.longitude),
                   tilt: 0,
                   zoom: 18.00)));
           updateMarker(newLocalData);
