@@ -7,7 +7,7 @@ import 'package:news_appdate/screens/user_info_screen.dart';
 
 // Handles all authentication needs
 class Authentication {
-  // Returns instance of Firebase app
+  // Returns instance of 'FirebaseApp'
   static Future<FirebaseApp> initializeFirebase({
     required BuildContext context,
   }) async {
@@ -26,7 +26,9 @@ class Authentication {
     return firebaseApp;
   }
 
+  // Authenticates login credentials and returns Google 'User' object according to given credentials
   static Future<User?> signInWithGoogle({required BuildContext context}) async {
+    // Instance of Firebase Auth
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
 
