@@ -13,7 +13,7 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   StreamSubscription? _locationSubscription;
   BitmapDescriptor? pinLocation;
-  late Marker marker;
+  Marker? marker;
   Location location = new Location();
   Location _locationTracker = Location();
   GoogleMapController? _controller;
@@ -25,7 +25,7 @@ class _MapPageState extends State<MapPage> {
   );
 
   void updateMarker(LocationData newLocationData) {
-    Geolocator.getCurrentPosition().then((Position position){
+    Geolocator.getCurrentPosition().then((Position position) {
       setState(() {
         _currentPosition = position;
       });
@@ -33,7 +33,8 @@ class _MapPageState extends State<MapPage> {
     var lastpos = Geolocator.getLastKnownPosition();
     var lat = _currentPosition.latitude;
 
-    LatLng latLng = LatLng(_currentPosition.latitude, _currentPosition.longitude);
+    LatLng latLng =
+        LatLng(_currentPosition.latitude, _currentPosition.longitude);
     this.setState(() {
       marker = Marker(
           markerId: MarkerId('mylocation'), position: latLng, draggable: false);
@@ -55,7 +56,8 @@ class _MapPageState extends State<MapPage> {
           _controller!.animateCamera(CameraUpdate.newCameraPosition(
               CameraPosition(
                   bearing: 192.8334901395799,
-                  target: LatLng(_currentPosition.latitude, _currentPosition.longitude),
+                  target: LatLng(
+                      _currentPosition.latitude, _currentPosition.longitude),
                   tilt: 0,
                   zoom: 18.00)));
           updateMarker(newLocalData);
@@ -73,7 +75,7 @@ class _MapPageState extends State<MapPage> {
           GoogleMap(
               zoomControlsEnabled: false,
               initialCameraPosition: initialLocation,
-              markers: Set.of((marker != null) ? [marker] : []),
+              markers: Set.of((marker != null) ? [marker!] : []),
               onMapCreated: (GoogleMapController controller) {
                 _controller = controller;
               }),
