@@ -23,10 +23,14 @@ class NewsCard extends StatelessWidget {
                 maxWidth: 64,
                 maxHeight: 64,
               ),
-              child: Image.network(story.media?.first.url ??
-                  'https://media.istockphoto.com/photos/online-news-in-mobile-phone-close-up-of-smartphone-screen-man-reading-picture-id1065782416?k=6&m=1065782416&s=612x612&w=0&h=oqRXwNjuG6IKAsKMJOeWdG2HGrV81Jk5ys0RIvLnDRo='),
+              child: Image.network(
+                  // Stupid code due to flutter null safety ahead
+                  story.media == null || story.media!.length == 0
+                      ? 'https://media.istockphoto.com/photos/online-news-in-mobile-phone-close-up-of-smartphone-screen-man-reading-picture-id1065782416?k=6&m=1065782416&s=612x612&w=0&h=oqRXwNjuG6IKAsKMJOeWdG2HGrV81Jk5ys0RIvLnDRo='
+                      : story.media?.first.url ??
+                          'https://media.istockphoto.com/photos/online-news-in-mobile-phone-close-up-of-smartphone-screen-man-reading-picture-id1065782416?k=6&m=1065782416&s=612x612&w=0&h=oqRXwNjuG6IKAsKMJOeWdG2HGrV81Jk5ys0RIvLnDRo='),
             ),
-            title: Text(story.title ?? "N/A",
+            title: Text(story.title,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,13 +38,22 @@ class NewsCard extends StatelessWidget {
                 children: [
                   Text(story.publishedAt.toString(),
                       style: TextStyle(color: Colors.black.withOpacity(0.6))),
-                  Text(story.locations?.first.text ?? "N/A",
+                  Text(
+                      // More stupid code due to null safety
+                      (story.locations?.length == 0
+                              ? "N/A"
+                              : story.locations?.first.text) ??
+                          "N/A",
                       style: TextStyle(color: Colors.black.withOpacity(0.6)))
                 ])),
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text(
-            story.summary?.sentences?.first ?? "N/A",
+            // Stupid ahead
+            (story.summary?.sentences?.length == 0
+                    ? "N/A"
+                    : story.summary?.sentences?.first) ??
+                "N/A",
             style:
                 TextStyle(color: Colors.black.withOpacity(0.6), fontSize: 16),
           ),
