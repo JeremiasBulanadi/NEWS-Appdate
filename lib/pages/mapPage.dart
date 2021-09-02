@@ -3,6 +3,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:flutter/services.dart';
+import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+
 import 'dart:async';
 
 class MapPage extends StatefulWidget {
@@ -30,8 +32,6 @@ class _MapPageState extends State<MapPage> {
         _currentPosition = position;
       });
     });
-    var lastpos = Geolocator.getLastKnownPosition();
-    var lat = _currentPosition.latitude;
 
     LatLng latLng =
         LatLng(_currentPosition.latitude, _currentPosition.longitude);
@@ -79,44 +79,7 @@ class _MapPageState extends State<MapPage> {
               onMapCreated: (GoogleMapController controller) {
                 _controller = controller;
               }),
-          Positioned(
-            top: 5,
-            right: 5,
-            left: 5,
-            child: Container(
-              width: 200,
-              height: 56,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(32),
-                color: Colors.white,
-                boxShadow: kElevationToShadow[6],
-              ),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.only(left: 16),
-                      child: TextField(
-                        decoration: InputDecoration(
-                            hintText: 'Search a location',
-                            hintStyle:
-                                TextStyle(color: Colors.black.withOpacity(0.6)),
-                            border: InputBorder.none),
-                      ),
-                    ),
-                  ),
-                  Container(
-                      child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Icon(
-                      Icons.search,
-                      color: Colors.black,
-                    ),
-                  ))
-                ],
-              ),
-            ),
-          ),
+          
           Positioned(
             bottom: 10,
             right: 5,
