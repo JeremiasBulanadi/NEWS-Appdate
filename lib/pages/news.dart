@@ -21,11 +21,6 @@ class _NewsCardsState extends State<NewsCards> {
     ),
   );
 
-  Widget searchBar() => SearchWidget(
-    text: , 
-    onChanged: , 
-    hintText: 'Search News');
-
   Widget firstCard() => Card(
        clipBehavior: Clip.antiAlias,
     child: Column(
