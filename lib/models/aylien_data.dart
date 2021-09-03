@@ -7,11 +7,8 @@
 //  with the exception of the getNewsLocation function
 //  I will not elaborate further cuz there's too much here to explain
 
-import 'package:geocoding/geocoding.dart';
-import 'package:meta/meta.dart';
 import 'package:news_appdate/models/location.dart';
 import 'dart:convert';
-import 'package:news_appdate/services/geocoding.dart';
 
 AylienData aylienDataFromJson(String str) =>
     AylienData.fromJson(json.decode(str));
@@ -133,7 +130,7 @@ class Story {
   });
 
   Author? author;
-  String body;
+  String? body;
   List<Category>? categories;
   List<dynamic>? industries;
   int charactersCount;
@@ -509,11 +506,11 @@ class Media {
   });
 
   int? contentLength;
-  String format;
-  int height;
-  String type;
-  String url;
-  int width;
+  String? format;
+  int? height;
+  String? type;
+  String? url;
+  int? width;
 
   factory Media.fromJson(Map<String, dynamic> json) => Media(
         contentLength: json["content_length"],

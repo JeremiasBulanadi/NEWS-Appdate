@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:news_appdate/providers/news_provider.dart';
+import 'package:news_appdate/widgets/news_card.dart';
+import 'package:provider/provider.dart';
 import 'package:news_appdate/widgets/search_widget.dart';
 import 'newsPage.dart';
 
@@ -13,15 +16,16 @@ class _NewsCardsState extends State<NewsCards> {
         body: ListView(
           padding: EdgeInsets.all(16),
           scrollDirection: Axis.vertical,
-          children: [firstCard(), secondCard(), thirdCard()],
+          children: context.watch<News>().newsCards,
         ),
+        floatingActionButton: // FOR TESTING ONLY
+            FloatingActionButton(
+                onPressed: () => context.read<News>().updateNews()),
       );
-
   Widget searchBar() => SearchWidget(
       text: "Placeholder",
       onChanged: (String txt) => {},
       hintText: 'Search News');
-
   Widget firstCard() => Card(
         clipBehavior: Clip.antiAlias,
         child: Column(children: [

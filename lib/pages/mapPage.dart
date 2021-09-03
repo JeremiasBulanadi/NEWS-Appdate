@@ -19,7 +19,7 @@ class _MapPageState extends State<MapPage> {
   Location location = new Location();
   Location _locationTracker = Location();
   GoogleMapController? _controller;
-  late Position _currentPosition;
+  Position? _currentPosition;
   @override
   static final CameraPosition initialLocation = CameraPosition(
     target: LatLng(15.132722, 120.589111),
@@ -32,9 +32,11 @@ class _MapPageState extends State<MapPage> {
         _currentPosition = position;
       });
     });
+    var lastpos = Geolocator.getLastKnownPosition();
+    var lat = _currentPosition!.latitude;
 
     LatLng latLng =
-        LatLng(_currentPosition.latitude, _currentPosition.longitude);
+        LatLng(_currentPosition!.latitude, _currentPosition!.longitude);
     this.setState(() {
       marker = Marker(
           markerId: MarkerId('mylocation'), position: latLng, draggable: false);
@@ -57,7 +59,7 @@ class _MapPageState extends State<MapPage> {
               CameraPosition(
                   bearing: 192.8334901395799,
                   target: LatLng(
-                      _currentPosition.latitude, _currentPosition.longitude),
+                      _currentPosition!.latitude, _currentPosition!.longitude),
                   tilt: 0,
                   zoom: 18.00)));
           updateMarker(newLocalData);
