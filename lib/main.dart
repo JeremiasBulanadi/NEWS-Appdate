@@ -92,6 +92,41 @@ class _HomePageState extends State<HomePage> {
       ),
       backgroundColor: Colors.white,
       body: _pageOptions[selectedPage],
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            UserAccountsDrawerHeader(accountName: Text('Placeholder'), 
+            accountEmail: Text('@Placeholder'),
+            decoration: BoxDecoration(
+              color: Colors.green[300]
+              ),
+            currentAccountPicture: CircleAvatar(
+             backgroundImage: AssetImage('lib/assets/placeholder.jpg'),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.save),
+              title: Text('Saved news'),
+              onTap: (){},
+            ),
+            ListTile(
+              leading: Icon(Icons.public),
+              title: Text('Global Hashtag'),
+              onTap: (){},
+            ),
+            ListTile(
+              leading: Icon(Icons.star),
+              title: Text('Personal Hashtag'),
+              onTap: (){},
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Logout'),
+              onTap: (){},
+            )
+          ],
+        ),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(

@@ -12,7 +12,7 @@ class _NewsPageState extends State<NewsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('News Title here'),
+        title: Text('News Page'),
         backgroundColor: Colors.green[400],
         leading: IconButton(icon: Icon(Icons.arrow_back),
         onPressed: () => Navigator.of(context).pop(),),
@@ -33,9 +33,15 @@ class _NewsPageState extends State<NewsPage> {
         padding: EdgeInsets.all(16),
         child: Column(
           children: [
-            Image.asset('lib/assets/placeholder.jpg'),
-            SizedBox(height: 25,),
-            Text('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.')
+            Padding(padding: EdgeInsets.only(bottom: 25),
+            child: Text('Lorem ipsum', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),),
+            Padding(padding: EdgeInsets.only(bottom: 25),
+            child: Image.asset('lib/assets/placeholder.jpg'),),
+            Padding(padding: EdgeInsets.only(bottom: 25),
+            child: Text('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.')),
+            Padding(padding: EdgeInsets.only(bottom: 25),
+            child: Text('#hell yeah', style: TextStyle(color: Colors.blue),),),
+            Text('Location: Placeholder', style: TextStyle(color: Colors.black54),)
          ],
       ),),
     );
