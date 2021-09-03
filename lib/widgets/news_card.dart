@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:news_appdate/models/aylien_data.dart';
+import '../pages/newsPage.dart';
 
 class NewsCard extends StatelessWidget {
   NewsCard({required this.story});
@@ -63,7 +64,10 @@ class NewsCard extends StatelessWidget {
           children: [
             FlatButton(
               textColor: Colors.blue,
-              onPressed: () {},
+              onPressed: () => {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => NewsPage()))
+              },
               child: Text(
                 'View',
                 style: TextStyle(fontSize: 15),
