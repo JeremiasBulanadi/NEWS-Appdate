@@ -4,23 +4,32 @@
 
 // TODO:
 // - Make something that will inform if API isn't working
+// - Make a startup page informing users that this app is experimental
 
 import 'package:flutter/material.dart';
+import 'package:news_appdate/providers/news_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:news_appdate/models/aylien_data.dart';
+import 'package:news_appdate/services/geocoding.dart';
+import 'package:news_appdate/widgets/news_card.dart';
+import 'package:http/http.dart' as http;
 import './pages/mapPage.dart';
 import './pages/news.dart';
 import './pages/firstPage.dart';
 import './pages/testing.dart';
-import 'package:news_appdate/models/aylien_data.dart';
-import 'package:news_appdate/services/geocoding.dart';
-import 'package:news_appdate/widgets/news_card.dart';
-import 'services/api_call.dart';
-import 'package:http/http.dart' as http;
-import 'constants/api_path.dart';
+import './providers/news_provider.dart';
+import './services/api_call.dart';
+import './constants/api_path.dart';
 
 // This is where the json object should be stored
 // Not sure if it should be a global object
 AylienData? aylienData;
-void main() => runApp(AppDate());
+void main() => runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (BuildContext context) => News())
+      ],
+      child: AppDate(),
+    ));
 
 class AppDate extends StatelessWidget {
   @override
