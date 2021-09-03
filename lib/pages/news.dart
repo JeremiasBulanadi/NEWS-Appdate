@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:news_appdate/widgets/search_widget.dart';
+import 'newsPage.dart';
 
 class NewsCards extends StatefulWidget {
   @override
@@ -18,6 +20,12 @@ class _NewsCardsState extends State<NewsCards> {
       ],
     ),
   );
+
+  Widget searchBar() => SearchWidget(
+    text: , 
+    onChanged: , 
+    hintText: 'Search News');
+
   Widget firstCard() => Card(
        clipBehavior: Clip.antiAlias,
     child: Column(
@@ -31,7 +39,7 @@ class _NewsCardsState extends State<NewsCards> {
                 maxHeight: 64,
               ), child: Image.network('https://media.istockphoto.com/photos/online-news-in-mobile-phone-close-up-of-smartphone-screen-man-reading-picture-id1065782416?k=6&m=1065782416&s=612x612&w=0&h=oqRXwNjuG6IKAsKMJOeWdG2HGrV81Jk5ys0RIvLnDRo='),
               ),
-          title: const Text('Lorem Ipsum',style: TextStyle(fontSize:20,fontWeight:FontWeight.bold)),
+          title: const Text('Click me',style: TextStyle(fontSize:20,fontWeight:FontWeight.bold)),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             textDirection: TextDirection.ltr,
@@ -53,7 +61,9 @@ class _NewsCardsState extends State<NewsCards> {
           children: [ 
             FlatButton(
               textColor: Colors.blue,
-              onPressed: (){},
+              onPressed: () => {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => NewsPage()))
+              },
               child: Text('View',style: TextStyle(fontSize: 15),),
          
         ),
