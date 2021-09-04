@@ -2,6 +2,7 @@
 
 import '../constants/api_path.dart';
 import '../models/aylien_data.dart';
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 // TODO:
@@ -42,5 +43,5 @@ Future<AylienData> getAylienData() async {
     },
   );
   // converts the response to an json object and returns it
-  return aylienDataFromJson(response.body);
+  return aylienDataFromJson(utf8.decode(response.bodyBytes));
 }
