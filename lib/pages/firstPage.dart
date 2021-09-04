@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'newsPage.dart';
 
 class SuggestionPage extends StatefulWidget {
   @override
@@ -43,7 +44,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
                 maxHeight: 64,
               ), child: Image.network('https://media.istockphoto.com/photos/online-news-in-mobile-phone-close-up-of-smartphone-screen-man-reading-picture-id1065782416?k=6&m=1065782416&s=612x612&w=0&h=oqRXwNjuG6IKAsKMJOeWdG2HGrV81Jk5ys0RIvLnDRo='),
               ),
-          title: const Text('Lorem Ipsum',style: TextStyle(fontSize:20,fontWeight:FontWeight.bold)),
+          title: const Text('Click me',style: TextStyle(fontSize:20,fontWeight:FontWeight.bold)),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             textDirection: TextDirection.ltr,
@@ -65,7 +66,10 @@ class _SuggestionPageState extends State<SuggestionPage> {
           children: [ 
             FlatButton(
               textColor: Colors.blue,
-              onPressed: (){},
+              onPressed: (){
+                Navigator.push(context,
+                MaterialPageRoute(builder: (context) => NewsPage()));
+              },
               child: Text('View',style: TextStyle(fontSize: 15),),
          
         ),
