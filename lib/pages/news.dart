@@ -26,7 +26,6 @@ class _NewsCardsState extends State<NewsCards> {
           ],
         ),
         floatingActionButton: // FOR TESTING ONLY
-            FloatingActionButton(
-                onPressed: () => context.read<News>().updateNews()),
+            FloatingActionButton(onPressed: () => setState(() {})),
       );
 }

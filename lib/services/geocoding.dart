@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:location/location.dart' as LOC;
 
 // Gets user location details
 // we mostly just want:
@@ -8,16 +9,27 @@ import 'package:geocoding/geocoding.dart';
 // - Actually implement getting user location instead of just testing geocoding
 
 // This is for testing, will be replaced
-void getLocation(String location) async {
-  List<Location> latlngs = await locationFromAddress(location);
-  List<Placemark> placemarks =
-      await placemarkFromCoordinates(latlngs[0].latitude, latlngs[0].longitude);
+Future<dynamic> getUserLocation() async {
+  var location = new LOC.Location();
+  var _serviceEnabled = await location.serviceEnabled();
+  if (!_serviceEnabled) {
+    _serviceEnabled = await location.requestService();
+    if (!_serviceEnabled) {
+      return;
+    }
+  }
 
-  print(latlngs[0]);
-  print("\n");
-  print(placemarks[0]);
-  print("\n");
-  print(placemarks[1]);
+  var _permissionGranted = await location.hasPermission();
+  if (_permissionGranted == LOC.PermissionStatus.denied) {
+    _permissionGranted = await location.requestPermission();
+    if (_permissionGranted != LOC.PermissionStatus.granted) {
+      return;
+    }
+  }
+
+  var currentLocation = await location.getLocation();
+
+  return currentLocation;
 }
 
 // Will give out a Location object with latitude and longitude values...

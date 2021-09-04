@@ -10,6 +10,7 @@ class Loc {
 
   void getDetails(String loc) async {
     this.text = loc;
+    // pesky no value strings aint gettin in my neighborhood
     if (loc != '') {
       // We're not guaranteed that the entity is actually a place so this might give out null
       this.latlng = await getLatLng(loc);
