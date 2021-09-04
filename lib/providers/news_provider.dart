@@ -4,13 +4,14 @@ import 'package:provider/provider.dart';
 import '../models/aylien_data.dart';
 import '../services/api_call.dart';
 
+// TODO: Rework this shit
 class News with ChangeNotifier {
   AylienData? _aylienData;
   List<Story> locationalNews = [];
   List<Story> recommendedNews = [];
   List<NewsCard> newsCards = [];
 
-  void updateNews() async {
+  Future<void> updateNews() async {
     clearData();
     _aylienData = await getAylienData();
     _aylienData!.getNewsLocations();
@@ -23,6 +24,22 @@ class News with ChangeNotifier {
     // FOR TESTING ONLY
     print("YO BOYS WE IN THIS!");
     print(newsCards.length);
+  }
+
+  static Future<List<Story>> getNews() async {
+    List<Story> news = [];
+    AylienData? aylien = await getAylienData();
+    aylien.getNewsLocations();
+    news.addAll(aylien.stories ?? []);
+    return news;
+  }
+
+  Future<Widget> getListView() async {
+    updateNews();
+    return SingleChildScrollView(
+        child: Column(
+      children: newsCards,
+    ));
   }
 
   void clearData() {
