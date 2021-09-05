@@ -14,18 +14,21 @@ class NewsCards extends StatefulWidget {
 
 class _NewsCardsState extends State<NewsCards> {
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: Stack(
-          children: [
-            Padding(padding: EdgeInsets.only(top: 70), child: NewsList()),
-            Positioned(
-                child: SearchWidget(
-                    text: "Placeholder",
-                    onChanged: (String txt) => {},
-                    hintText: 'Search News / Location')),
-          ],
-        ),
-        floatingActionButton: // FOR TESTING ONLY
-            FloatingActionButton(onPressed: () => setState(() {})),
-      );
+  Widget build(BuildContext context) {
+    context.read<NewsProvider>().updateNews();
+    return Scaffold(
+      body: Stack(
+        children: [
+          Padding(padding: EdgeInsets.only(top: 70), child: NewsList()),
+          Positioned(
+              child: SearchWidget(
+                  text: "Placeholder",
+                  onChanged: (String txt) => {},
+                  hintText: 'Search News / Location')),
+        ],
+      ),
+      floatingActionButton: // FOR TESTING ONLY
+          FloatingActionButton(onPressed: () => setState(() {})),
+    );
+  }
 }

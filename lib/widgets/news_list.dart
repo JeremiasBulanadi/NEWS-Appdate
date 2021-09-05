@@ -14,23 +14,24 @@ class NewsList extends StatefulWidget {
 class _NewsListState extends State<NewsList> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: NewsProvider.getNews(),
-      builder: (context, AsyncSnapshot<List<Story>> snapshot) {
-        if (snapshot.hasData) {
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                for (var story in (snapshot.data ?? [])) NewsCard(story: story)
-              ],
-            ),
-          );
-        } else {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      },
-    );
+    var locationalNews = context.watch<NewsProvider>().locationalNews;
+
+    if (locationalNews == null) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    } else if (locationalNews.length < 1) {
+      return Center(
+        child: Text("No Results Found"),
+      );
+    } else {
+      return ListView.builder(
+          itemCount: locationalNews.length,
+          itemBuilder: (context, index) {
+            return NewsCard(
+              story: locationalNews[index],
+            );
+          });
+    }
   }
 }
