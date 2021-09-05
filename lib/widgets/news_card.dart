@@ -55,6 +55,9 @@ class NewsCard extends StatelessWidget {
                     ? "N/A"
                     : story.summary?.sentences?.first) ??
                 "N/A",
+            overflow: TextOverflow.ellipsis,
+            maxLines: 3,
+            softWrap: true,
             style:
                 TextStyle(color: Colors.black.withOpacity(0.6), fontSize: 16),
           ),
