@@ -26,7 +26,7 @@ import './constants/api_path.dart';
 AylienData? aylienData;
 void main() => runApp(MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (BuildContext context) => News())
+        ChangeNotifierProvider(create: (BuildContext context) => NewsProvider())
       ],
       child: AppDate(),
     ));
@@ -53,20 +53,29 @@ class _MessagePageState extends State<MessagePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       body: Column(
-         mainAxisAlignment: MainAxisAlignment.center,
-         children: [
-           Container(padding: EdgeInsets.all(16),
-           decoration: BoxDecoration(
-             borderRadius: BorderRadius.all(Radius.circular(23)) ,
-             color: Colors.green[100],
-           ),
-           child: Text('This is a prototype application that would be using the user\'s location to be able to locate news in their vicinity. By clicking "I understand" you are aware of the functionality of the application and will be directed to the main app', textAlign: TextAlign.center,),),
-           FlatButton(child: Text('I understand'), color: Colors.green[400], textColor: Colors.white,
-           onPressed: (){
-             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
-           })
-         ],
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(23)),
+              color: Colors.green[100],
+            ),
+            child: Text(
+              'This is a prototype application that would be using the user\'s location to be able to locate news in their vicinity. By clicking "I understand" you are aware of the functionality of the application and will be directed to the main app',
+              textAlign: TextAlign.center,
+            ),
+          ),
+          FlatButton(
+              child: Text('I understand'),
+              color: Colors.green[400],
+              textColor: Colors.white,
+              onPressed: () {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => HomePage()));
+              })
+        ],
       ),
     );
   }
@@ -95,34 +104,33 @@ class _HomePageState extends State<HomePage> {
       drawer: Drawer(
         child: ListView(
           children: [
-            UserAccountsDrawerHeader(accountName: Text('Placeholder'), 
-            accountEmail: Text('@Placeholder'),
-            decoration: BoxDecoration(
-              color: Colors.green[300]
-              ),
-            currentAccountPicture: CircleAvatar(
-             backgroundImage: AssetImage('lib/assets/placeholder.jpg'),
+            UserAccountsDrawerHeader(
+              accountName: Text('Placeholder'),
+              accountEmail: Text('@Placeholder'),
+              decoration: BoxDecoration(color: Colors.green[300]),
+              currentAccountPicture: CircleAvatar(
+                backgroundImage: AssetImage('lib/assets/placeholder.jpg'),
               ),
             ),
             ListTile(
               leading: Icon(Icons.save),
               title: Text('Saved news'),
-              onTap: (){},
+              onTap: () {},
             ),
             ListTile(
               leading: Icon(Icons.public),
               title: Text('Global Hashtag'),
-              onTap: (){},
+              onTap: () {},
             ),
             ListTile(
               leading: Icon(Icons.star),
               title: Text('Personal Hashtag'),
-              onTap: (){},
+              onTap: () {},
             ),
             ListTile(
               leading: Icon(Icons.logout),
               title: Text('Logout'),
-              onTap: (){},
+              onTap: () {},
             )
           ],
         ),

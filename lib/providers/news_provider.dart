@@ -5,7 +5,7 @@ import '../models/aylien_data.dart';
 import '../services/api_call.dart';
 
 // TODO: Rework this shit
-class News with ChangeNotifier {
+class NewsProvider with ChangeNotifier {
   AylienData? _aylienData;
   List<Story> locationalNews = [];
   List<Story> recommendedNews = [];

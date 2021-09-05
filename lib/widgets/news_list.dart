@@ -15,7 +15,7 @@ class _NewsListState extends State<NewsList> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: News.getNews(),
+      future: NewsProvider.getNews(),
       builder: (context, AsyncSnapshot<List<Story>> snapshot) {
         if (snapshot.hasData) {
           return SingleChildScrollView(
