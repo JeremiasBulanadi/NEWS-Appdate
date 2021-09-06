@@ -3,6 +3,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:flutter/services.dart';
+import '../widgets/marker_widget.dart';
+import '../providers/news_provider.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 
 import 'dart:async';
@@ -13,6 +15,7 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
+  LatLng? _initialLocation;
   StreamSubscription? _locationSubscription;
   BitmapDescriptor? pinLocation;
   Marker? marker;
@@ -32,8 +35,6 @@ class _MapPageState extends State<MapPage> {
         _currentPosition = position;
       });
     });
-    var lastpos = Geolocator.getLastKnownPosition();
-    var lat = _currentPosition!.latitude;
 
     LatLng latLng =
         LatLng(_currentPosition!.latitude, _currentPosition!.longitude);
@@ -69,6 +70,7 @@ class _MapPageState extends State<MapPage> {
       if (e.code == 'PERMISSION_DENIED') {}
     }
   }
+
 
   Widget build(BuildContext context) {
     return Scaffold(
