@@ -4,13 +4,14 @@ import '../services/api_call.dart';
 
 class NewsProvider with ChangeNotifier {
   AylienData? _aylienData;
-  List<Story>? locationalNews = null;
-  List<Story>? recommendedNews = null;
+  List<Story>? locationalNews;
+  List<Story>? recommendedNews;
 
   Future<void> updateNews() async {
     clearData();
     _aylienData = await getAylienData();
-    _aylienData!.getNewsLocations();
+    _aylienData!
+        .getNewsLocations(); // Heavy work, this is. Locks threads, it does.
     locationalNews = [];
     locationalNews!.addAll(_aylienData!.stories ?? []);
     notifyListeners();
