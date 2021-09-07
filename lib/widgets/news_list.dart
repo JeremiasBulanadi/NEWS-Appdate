@@ -18,7 +18,9 @@ class _NewsListState extends State<NewsList> {
 
     if (locationalNews == null) {
       return Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          strokeWidth: 10,
+        ),
       );
     } else if (locationalNews.length < 1) {
       return Center(

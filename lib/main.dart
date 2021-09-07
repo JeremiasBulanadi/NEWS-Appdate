@@ -9,19 +9,21 @@
 import 'package:flutter/material.dart';
 import 'package:news_appdate/providers/news_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:news_appdate/models/aylien_data.dart';
+import './services/auth.dart';
+import './models/user.dart';
 import './pages/wrapper.dart';
 import './providers/news_provider.dart';
 
-// This is where the json object should be stored
-// Not sure if it should be a global object
-AylienData? aylienData;
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  AuthService _auth = AuthService();
 
   runApp(MultiProvider(
     providers: [
-      //StreamProvider.value(value: AuthService().user, initialData: null),
+      StreamProvider<AppUser?>(
+        create: (_) => _auth.user,
+        initialData: null,
+      ),
       ChangeNotifierProvider(create: (BuildContext context) => NewsProvider())
     ],
     child: Wrapper(),

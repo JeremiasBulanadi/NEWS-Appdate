@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../models/user.dart';
 import '../widgets/news_card.dart';
 import '../services/auth.dart';
 import 'suggestionPage.dart';
@@ -13,14 +15,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  AuthService _auth = AuthService();
-
   List<NewsCard> newsCards = [];
   int selectedPage = 0;
   final _pageOptions = [SuggestionPage(), MapPage(), NewsCards(), TestPage()];
 
   @override
   Widget build(BuildContext context) {
+    AuthService auth = AuthService();
+    final user = Provider.of<AppUser?>(context);
+    print(user);
+
     return Scaffold(
       appBar: AppBar(
         title: Text("News Appdate"),
@@ -52,12 +56,19 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               leading: Icon(Icons.star),
               title: Text('Personal Hashtag'),
-              onTap: () {},
+              onTap: () {
+                if (user == null) {
+                  auth.signInAnon();
+                }
+              },
             ),
             ListTile(
+              enabled: user != null,
               leading: Icon(Icons.logout),
               title: Text('Logout'),
-              onTap: () async {},
+              onTap: () async {
+                print(auth.signOut());
+              },
             )
           ],
         ),
