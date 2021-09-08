@@ -3,8 +3,9 @@
 // However, I don't know how that would work for mobile apps
 // Will research about it later
 
-// These needs to change when it expires
-const AYLIEN_APP_ID = "30d44748";
-const AYLIEN_APP_KEY = "dad2ccecfbaf398d5d903b08eeef13a5";
+// Iteration number: 3
+// These needs to change when it expires on: September 15, 2021 (Wednesday) around 8:30pm HongKong time
+const AYLIEN_APP_ID = "5ea0e49a";
+const AYLIEN_APP_KEY = "4d35948e191951ea198f01306678cd28";
 const AYLIEN_AUTH = "api.aylien.com";
 const AYLIEN_PATH = "/news/stories";
