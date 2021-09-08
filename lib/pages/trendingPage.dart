@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class TestPage extends StatefulWidget {
+class TrendingPage extends StatefulWidget {
   @override
-  _TestPageState createState() => _TestPageState();
+  _TrendingPageState createState() => _TrendingPageState();
 }
 
-class _TestPageState extends State<TestPage> {
+class _TrendingPageState extends State<TrendingPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
     body: Column(
@@ -14,7 +14,7 @@ class _TestPageState extends State<TestPage> {
           padding: const EdgeInsets.all(2),
           color: Colors.green[50],
           child: ListTile(
-            leading: Text('Suggested for you', style: TextStyle(color: Colors.black.withOpacity(0.6), fontWeight: FontWeight.bold, fontSize: 20),),
+            leading: Text('Trending News', style: TextStyle(color: Colors.black.withOpacity(0.6), fontWeight: FontWeight.bold, fontSize: 20),),
             ),
         ),
       Expanded(

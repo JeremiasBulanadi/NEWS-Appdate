@@ -60,21 +60,15 @@ class _NewsPageState extends State<NewsPage> {
                 Align(child: Text('Locations:', style: TextStyle(color: Colors.black54),), alignment: Alignment.centerLeft,),
                 Align(child: Row(children: [
                   Text('Placeholder1', style: TextStyle(color: Colors.black54),),
-                  FlatButton(
-                    child: Icon(Icons.location_searching_outlined),
-                    onPressed: (){})
+                  IconButton(icon: Icon(Icons.location_searching_outlined, size: 15), onPressed: (){})
                 ],),alignment: Alignment.centerLeft,),
                 Align(child: Row(children: [
                   Text('Placeholder2', style: TextStyle(color: Colors.black54),),
-                  FlatButton(
-                    child: Icon(Icons.location_searching_outlined),
-                    onPressed: (){})
+                  IconButton(icon: Icon(Icons.location_searching_outlined, size: 15), onPressed: (){})
                 ],),alignment: Alignment.centerLeft,),
                 Align(child: Row(children: [
                   Text('Placeholder3', style: TextStyle(color: Colors.black54),),
-                  FlatButton(
-                    child: Icon(Icons.location_searching_outlined),
-                    onPressed: (){})
+                  IconButton(icon: Icon(Icons.location_searching_outlined, size: 15), onPressed: (){})
                 ],),alignment: Alignment.centerLeft,)
           ],), alignment: Alignment.centerLeft,)
          ],

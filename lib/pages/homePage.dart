@@ -1,3 +1,5 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/user.dart';
@@ -6,7 +8,9 @@ import '../services/auth.dart';
 import 'suggestionPage.dart';
 import 'mapPage.dart';
 import 'news.dart';
-import 'testing.dart';
+import 'trendingPage.dart';
+import 'savedNewsPage.dart';
+import 'hashtagPage.dart';
 
 //For testing Only
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,7 +23,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int selectedPage = 0;
-  final _pageOptions = [SuggestionPage(), MapPage(), NewsCards(), TestPage()];
+  final _pageOptions = [SuggestionPage(), MapPage(), NewsCards(), TrendingPage()];
 
   @override
   Widget build(BuildContext context) {
@@ -51,12 +55,17 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               leading: Icon(Icons.save),
               title: Text('Saved news'),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context, 
+                  MaterialPageRoute(builder: (context)=> SavedNews()));
+              },
             ),
             ListTile(
               leading: Icon(Icons.public),
               title: Text('Global Hashtag'),
               onTap: () {
+                Navigator.push(context, 
+                  MaterialPageRoute(builder: (context) => GlobalTags()));
                 FirebaseAuth.instance.authStateChanges().listen((User? user) {
                   if (user == null) {
                     print('User is currently signed out!');
@@ -99,10 +108,10 @@ class _HomePageState extends State<HomePage> {
               title: Text('News')),
           BottomNavigationBarItem(
               icon: Icon(
-                Icons.account_circle_sharp,
+                Icons.trending_up,
                 size: 30,
               ),
-              title: Text('Test')),
+              title: Text('Trending')),
         ],
         selectedItemColor: Colors.green,
         elevation: 5.0,
