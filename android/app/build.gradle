@@ -38,7 +38,7 @@ android {
         applicationId "com.jdb.news_appdate"
         minSdkVersion 23
         targetSdkVersion 30
-        multiDexEnabled true
+        // multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }

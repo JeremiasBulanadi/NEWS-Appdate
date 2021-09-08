@@ -19,7 +19,9 @@ class _NewsListState extends State<NewsList> {
     if (locationalNews == null) {
       context.read<NewsProvider>().updateNews();
       return Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          strokeWidth: 10,
+        ),
       );
     } else if (locationalNews.length < 1) {
       return Center(
