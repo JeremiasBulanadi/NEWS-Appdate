@@ -13,7 +13,7 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('articles');
 
   Future updateUserData(Map<String, int> hashtagPreferences) async {
-    return await articleCollection.doc(uid).set({
+    return await userCollection.doc(uid).set({
       'hashtagPreferences': hashtagPreferences,
     });
   }
