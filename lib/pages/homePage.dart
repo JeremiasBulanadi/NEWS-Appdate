@@ -8,6 +8,9 @@ import 'mapPage.dart';
 import 'news.dart';
 import 'testing.dart';
 
+//For testing Only
+import 'package:firebase_auth/firebase_auth.dart';
+
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
   @override
@@ -51,23 +54,30 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               leading: Icon(Icons.public),
               title: Text('Global Hashtag'),
-              onTap: () {},
+              onTap: () {
+                FirebaseAuth.instance.authStateChanges().listen((User? user) {
+                  if (user == null) {
+                    print('User is currently signed out!');
+                  } else {
+                    print('User is signed in!');
+                  }
+                });
+              },
             ),
             ListTile(
               leading: Icon(Icons.star),
               title: Text('Personal Hashtag'),
-              onTap: () {
-                if (user == null) {
-                  auth.signInAnon();
-                }
-              },
+              onTap: () {},
             ),
             ListTile(
-              enabled: user != null,
-              leading: Icon(Icons.logout),
-              title: Text('Logout'),
+              leading: user != null ? Icon(Icons.logout) : Icon(Icons.login),
+              title: Text(user != null ? "Logout" : "Login"),
               onTap: () async {
-                print(auth.signOut());
+                if (user != null) {
+                  auth.signOut();
+                } else {
+                  auth.signInWithGoogle();
+                }
               },
             )
           ],
