@@ -3,27 +3,39 @@ import '../models/aylien_data.dart';
 import '../services/api_call.dart';
 
 class NewsProvider with ChangeNotifier {
-  AylienData? _aylienData;
-  List<Story>? locationalNews;
-  List<Story>? recommendedNews;
+  NewsData newsData = NewsData();
 
   Future<void> updateNews() async {
     clearData();
-    _aylienData = await getAylienData();
-    _aylienData!
+    newsData.aylienData = await getAylienData();
+    newsData.aylienData!
         .getNewsLocations(); // Heavy work, this is. Locks threads, it does.
-    locationalNews = [];
-    locationalNews!.addAll(_aylienData!.stories ?? []);
-    notifyListeners();
+    newsData.locationalNews = [];
+    newsData.locationalNews!.addAll(newsData.aylienData!.stories ?? []);
 
+    newsData.recommendedNews = [];
+    // TESTING. This should be replaced
+    newsData.recommendedNews!.addAll(newsData.aylienData!.stories ?? []);
+
+    notifyListeners();
     // FOR TESTING ONLY
     print("YO BOYS WE IN THIS!");
-    print(locationalNews!.length);
+    print(newsData.locationalNews!.length);
   }
 
   void clearData() {
-    _aylienData = null;
-    locationalNews = null;
-    recommendedNews = null;
+    newsData.aylienData = null;
+    newsData.locationalNews = null;
+    newsData.recommendedNews = null;
   }
+
+  List<Story>? getLocationalNews() {
+    return newsData.locationalNews;
+  }
+}
+
+class NewsData {
+  AylienData? aylienData;
+  List<Story>? locationalNews;
+  List<Story>? recommendedNews;
 }

@@ -1,36 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/news_provider.dart';
-import '../models/aylien_data.dart';
 import '../widgets/news_card.dart';
 
-class NewsList extends StatefulWidget {
-  NewsList({Key? key}) : super(key: key);
+class RecommendedNewsList extends StatefulWidget {
+  RecommendedNewsList({Key? key}) : super(key: key);
 
   @override
-  _NewsListState createState() => _NewsListState();
+  _RecommendedNewsListState createState() => _RecommendedNewsListState();
 }
 
-class _NewsListState extends State<NewsList> {
+class _RecommendedNewsListState extends State<RecommendedNewsList> {
   @override
   Widget build(BuildContext context) {
-    var locationalNews = context.watch<NewsProvider>().newsData.locationalNews;
+    var recommendedNews =
+        context.watch<NewsProvider>().newsData.recommendedNews;
 
-    if (locationalNews == null) {
+    if (recommendedNews == null) {
       context.read<NewsProvider>().updateNews();
       return Center(
         child: CircularProgressIndicator(),
       );
-    } else if (locationalNews.length < 1) {
+    } else if (recommendedNews.length < 1) {
       return Center(
         child: Text("No Results Found"),
       );
     } else {
       return ListView.builder(
-          itemCount: locationalNews.length,
+          itemCount: recommendedNews.length,
           itemBuilder: (context, index) {
             return NewsCard(
-              story: locationalNews[index],
+              story: recommendedNews[index],
             );
           });
     }

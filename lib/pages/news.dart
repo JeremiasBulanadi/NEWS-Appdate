@@ -15,7 +15,6 @@ class NewsCards extends StatefulWidget {
 class _NewsCardsState extends State<NewsCards> {
   @override
   Widget build(BuildContext context) {
-    context.read<NewsProvider>().updateNews();
     return Scaffold(
       body: Stack(
         children: [
@@ -28,7 +27,10 @@ class _NewsCardsState extends State<NewsCards> {
         ],
       ),
       floatingActionButton: // FOR TESTING ONLY
-          FloatingActionButton(onPressed: () => setState(() {})),
+          FloatingActionButton(
+              onPressed: () => setState(() {
+                    context.read<NewsProvider>().updateNews();
+                  })),
     );
   }
 }

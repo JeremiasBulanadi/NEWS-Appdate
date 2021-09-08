@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../widgets/news_card.dart';
 import 'suggestionPage.dart';
 import 'mapPage.dart';
 import 'news.dart';
@@ -12,9 +11,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  AuthService _auth = AuthService();
-
-  List<NewsCard> newsCards = [];
   int selectedPage = 0;
   final _pageOptions = [SuggestionPage(), MapPage(), NewsCards(), TestPage()];
 
@@ -56,8 +52,7 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               leading: Icon(Icons.logout),
               title: Text('Logout'),
-              onTap: () async {
-              },
+              onTap: () async {},
             )
           ],
         ),
