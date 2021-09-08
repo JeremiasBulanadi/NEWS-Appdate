@@ -1,11 +1,17 @@
+import 'dart:typed_data';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:location/location.dart';
+import 'package:location/location.dart' as loc;
 import 'package:flutter/services.dart';
+import 'package:news_appdate/pages/news.dart';
+import '../widgets/news_card.dart';
+import '../models/aylien_data.dart';
 import '../widgets/marker_widget.dart';
 import '../providers/news_provider.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+import 'newsPage.dart';
 
 import 'dart:async';
 
@@ -15,21 +21,23 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
+  Story? _news_story;
+  Marker? marker;
   LatLng? _initialLocation;
   StreamSubscription? _locationSubscription;
   BitmapDescriptor? pinLocation;
-  Marker? marker;
-  Location location = new Location();
-  Location _locationTracker = Location();
+  loc.Location location = new loc.Location();
+  loc.Location _locationTracker = loc.Location();
   GoogleMapController? _controller;
   Position? _currentPosition;
+  Position? first_coords;
   @override
   static final CameraPosition initialLocation = CameraPosition(
     target: LatLng(15.132722, 120.589111),
     zoom: 15,
   );
 
-  void updateMarker(LocationData newLocationData) {
+  void updateMarker(loc.LocationData newLocationData) {
     Geolocator.getCurrentPosition().then((Position position) {
       setState(() {
         _currentPosition = position;
@@ -71,7 +79,26 @@ class _MapPageState extends State<MapPage> {
     }
   }
 
+   setMarker() async {
+      final query = _news_story!.locations!.first.text;
+      var address = await locationFromAddress(query);
+      first_coords = address as Position?;
+      marker = 
+        new Marker(markerId: MarkerId(_news_story!.title),
+        draggable: false,
+        position: new LatLng(first_coords!.longitude, first_coords!.latitude),
+        infoWindow: InfoWindow(
+          title: _news_story!.title,
+          onTap: (){
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => NewsPage()));
+          }
+        )
+      );
 
+      return marker;
+    }
+  
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
@@ -79,10 +106,11 @@ class _MapPageState extends State<MapPage> {
           GoogleMap(
               zoomControlsEnabled: false,
               initialCameraPosition: initialLocation,
-              markers: Set.of((marker != null) ? [marker!] : []),
+              markers: Set.of((marker != null) ? [marker!] : []), 
               onMapCreated: (GoogleMapController controller) {
                 _controller = controller;
-              }),
+              },
+              ),
           
           Positioned(
             bottom: 10,

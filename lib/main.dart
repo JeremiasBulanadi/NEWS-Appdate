@@ -127,6 +127,7 @@ class _HomePageState extends State<HomePage> {
               title: Text('Personal Hashtag'),
               onTap: () {},
             ),
+            Divider(),
             ListTile(
               leading: Icon(Icons.logout),
               title: Text('Logout'),
