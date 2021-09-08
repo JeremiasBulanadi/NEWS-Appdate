@@ -38,11 +38,14 @@ class _HomePageState extends State<HomePage> {
         child: ListView(
           children: [
             UserAccountsDrawerHeader(
-              accountName: Text('Placeholder'),
-              accountEmail: Text('@Placeholder'),
+              accountName:
+                  Text(user != null ? user.displayName : "Not logged in"),
+              accountEmail: Text(user != null ? user.email : "N/A"),
               decoration: BoxDecoration(color: Colors.green[300]),
               currentAccountPicture: CircleAvatar(
-                backgroundImage: AssetImage('lib/assets/placeholder.jpg'),
+                // Network would probably never go to ""... hopefully...
+                backgroundImage:
+                    user == null ? null : NetworkImage(user.photoURL ?? ""),
               ),
             ),
             ListTile(
