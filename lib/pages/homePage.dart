@@ -10,7 +10,8 @@ import 'mapPage.dart';
 import 'news.dart';
 import 'trendingPage.dart';
 import 'savedNewsPage.dart';
-import 'hashtagPage.dart';
+import 'globaltagPage.dart';
+import 'personaltagPage.dart';
 
 //For testing Only
 import 'package:firebase_auth/firebase_auth.dart';
@@ -78,7 +79,10 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               leading: Icon(Icons.star),
               title: Text('Personal Hashtag'),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context, 
+                  MaterialPageRoute(builder: (context) => PersonalTags()));
+              },
             ),
             ListTile(
               leading: user != null ? Icon(Icons.logout) : Icon(Icons.login),

@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
-class GlobalTags extends StatefulWidget {
-  const GlobalTags({ Key? key }) : super(key: key);
+class PersonalTags extends StatefulWidget {
+  const PersonalTags({ Key? key }) : super(key: key);
 
   @override
-  _GlobalTagsState createState() => _GlobalTagsState();
+  _PersonalTagsState createState() => _PersonalTagsState();
 }
 
-class _GlobalTagsState extends State<GlobalTags> {
+class _PersonalTagsState extends State<PersonalTags> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Global Hashtags'),
+        title: Text('Personal Hashtags'),
         backgroundColor: Colors.green[400],
       ),
       body: Column(
@@ -26,6 +26,7 @@ class _GlobalTagsState extends State<GlobalTags> {
                   backgroundColor: Colors.green[200],
                   child: Text("#", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
                 ),
+                trailing: Text('Score: 5'),
               ),
               ListTile(
                 title: Text('Placeholder_Hashtag2'),
@@ -33,6 +34,7 @@ class _GlobalTagsState extends State<GlobalTags> {
                   backgroundColor: Colors.green[200],
                   child: Text("#", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
                 ),
+                trailing: Text('Score: 5'),
               ),
               ListTile(
                 title: Text('Placeholder_Hashtag3'),
@@ -40,6 +42,7 @@ class _GlobalTagsState extends State<GlobalTags> {
                   backgroundColor: Colors.green[200],
                   child: Text("#", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
                 ),
+                trailing: Text('Score: 5'),
               ),
             ],
           ))
