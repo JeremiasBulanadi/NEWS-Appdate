@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../models/user.dart';
 import '../widgets/news_card.dart';
+import '../services/auth.dart';
 import 'suggestionPage.dart';
 import 'mapPage.dart';
 import 'news.dart';
 import 'testing.dart';
+
+//For testing Only
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -12,14 +18,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  AuthService _auth = AuthService();
-
-  List<NewsCard> newsCards = [];
   int selectedPage = 0;
   final _pageOptions = [SuggestionPage(), MapPage(), NewsCards(), TestPage()];
 
   @override
   Widget build(BuildContext context) {
+    AuthService auth = AuthService();
+    final user = Provider.of<AppUser?>(context);
+    print(user);
+
     return Scaffold(
       appBar: AppBar(
         title: Text("News Appdate"),
@@ -31,11 +38,14 @@ class _HomePageState extends State<HomePage> {
         child: ListView(
           children: [
             UserAccountsDrawerHeader(
-              accountName: Text('Placeholder'),
-              accountEmail: Text('@Placeholder'),
+              accountName:
+                  Text(user != null ? user.displayName : "Not logged in"),
+              accountEmail: Text(user != null ? user.email : "N/A"),
               decoration: BoxDecoration(color: Colors.green[300]),
               currentAccountPicture: CircleAvatar(
-                backgroundImage: AssetImage('lib/assets/placeholder.jpg'),
+                // Network would probably never go to ""... hopefully...
+                backgroundImage:
+                    user == null ? null : NetworkImage(user.photoURL ?? ""),
               ),
             ),
             ListTile(
@@ -46,7 +56,15 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               leading: Icon(Icons.public),
               title: Text('Global Hashtag'),
-              onTap: () {},
+              onTap: () {
+                FirebaseAuth.instance.authStateChanges().listen((User? user) {
+                  if (user == null) {
+                    print('User is currently signed out!');
+                  } else {
+                    print('User is signed in!');
+                  }
+                });
+              },
             ),
             ListTile(
               leading: Icon(Icons.star),
@@ -54,9 +72,14 @@ class _HomePageState extends State<HomePage> {
               onTap: () {},
             ),
             ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Logout'),
+              leading: user != null ? Icon(Icons.logout) : Icon(Icons.login),
+              title: Text(user != null ? "Logout" : "Login"),
               onTap: () async {
+                if (user != null) {
+                  auth.signOut();
+                } else {
+                  auth.signInWithGoogle();
+                }
               },
             )
           ],

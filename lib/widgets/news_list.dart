@@ -14,11 +14,14 @@ class NewsList extends StatefulWidget {
 class _NewsListState extends State<NewsList> {
   @override
   Widget build(BuildContext context) {
-    var locationalNews = context.watch<NewsProvider>().locationalNews;
+    var locationalNews = context.watch<NewsProvider>().newsData.locationalNews;
 
     if (locationalNews == null) {
+      context.read<NewsProvider>().updateNews();
       return Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          strokeWidth: 10,
+        ),
       );
     } else if (locationalNews.length < 1) {
       return Center(

@@ -13,24 +13,24 @@ class NewsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String placeholderImage = 'lib/assets/placeholder.jpg';
+
     return Card(
       clipBehavior: Clip.antiAlias,
       child: Column(children: [
         ListTile(
             leading: ConstrainedBox(
-              constraints: BoxConstraints(
-                minWidth: 44,
-                minHeight: 44,
-                maxWidth: 64,
-                maxHeight: 64,
-              ),
-              child: Image.network(
-                  // Stupid code due to flutter null safety ahead
-                  story.media == null || story.media!.length == 0
-                      ? 'https://media.istockphoto.com/photos/online-news-in-mobile-phone-close-up-of-smartphone-screen-man-reading-picture-id1065782416?k=6&m=1065782416&s=612x612&w=0&h=oqRXwNjuG6IKAsKMJOeWdG2HGrV81Jk5ys0RIvLnDRo='
-                      : story.media?.first.url ??
-                          'https://media.istockphoto.com/photos/online-news-in-mobile-phone-close-up-of-smartphone-screen-man-reading-picture-id1065782416?k=6&m=1065782416&s=612x612&w=0&h=oqRXwNjuG6IKAsKMJOeWdG2HGrV81Jk5ys0RIvLnDRo='),
-            ),
+                constraints: BoxConstraints(
+                  minWidth: 44,
+                  minHeight: 44,
+                  maxWidth: 64,
+                  maxHeight: 64,
+                ),
+                child: FadeInImage.assetNetwork(
+                    placeholder: placeholderImage,
+                    image: story.media == null || story.media!.length == 0
+                        ? placeholderImage
+                        : story.media?.first.url ?? placeholderImage)),
             title: Text(story.title,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             subtitle: Column(
