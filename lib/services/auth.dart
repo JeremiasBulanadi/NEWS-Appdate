@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../models/user.dart';
 
@@ -37,7 +36,7 @@ class AuthService {
     return _auth!.authStateChanges().map(_userFromFirebaseUser);
   }
 
-  // FOR TESTING ONLY: Anonymous Sign-In
+  // Anonymous Sign-In
   Future<AppUser?> signInAnon() async {
     try {
       UserCredential credential = await _auth!.signInAnonymously();
@@ -65,6 +64,8 @@ class AuthService {
 
     UserCredential userCred =
         await FirebaseAuth.instance.signInWithCredential(credential);
+
+    //return _userFromFirebaseUser(userCred);
 
     // Once signed in, return the UserCredential
     return userCred;

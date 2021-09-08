@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/user.dart';
@@ -25,7 +23,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int selectedPage = 0;
-  final _pageOptions = [SuggestionPage(), MapPage(), NewsCards(), TrendingPage()];
+  final _pageOptions = [
+    SuggestionPage(),
+    MapPage(),
+    NewsCards(),
+    TrendingPage()
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -58,16 +61,16 @@ class _HomePageState extends State<HomePage> {
               leading: Icon(Icons.save),
               title: Text('Saved news'),
               onTap: () {
-                Navigator.push(context, 
-                  MaterialPageRoute(builder: (context)=> SavedNews()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SavedNews()));
               },
             ),
             ListTile(
               leading: Icon(Icons.public),
               title: Text('Global Hashtag'),
               onTap: () {
-                Navigator.push(context, 
-                  MaterialPageRoute(builder: (context) => GlobalTags()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => GlobalTags()));
                 FirebaseAuth.instance.authStateChanges().listen((User? user) {
                   if (user == null) {
                     print('User is currently signed out!');

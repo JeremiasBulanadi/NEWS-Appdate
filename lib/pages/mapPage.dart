@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:location/location.dart' as loc;
 import 'package:flutter/services.dart';
 import 'package:news_appdate/pages/news.dart';
+import 'package:provider/provider.dart';
 import '../widgets/news_card.dart';
+import '../models/location.dart';
 import '../models/aylien_data.dart';
 import '../widgets/marker_widget.dart';
 import '../providers/news_provider.dart';
@@ -22,7 +24,7 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   Story? _news_story;
-  Marker? marker;
+  List<Marker> markers = [];
   LatLng? _initialLocation;
   StreamSubscription? _locationSubscription;
   BitmapDescriptor? pinLocation;
@@ -47,8 +49,10 @@ class _MapPageState extends State<MapPage> {
     LatLng latLng =
         LatLng(_currentPosition!.latitude, _currentPosition!.longitude);
     this.setState(() {
-      marker = Marker(
-          markerId: MarkerId('mylocation'), position: latLng, draggable: false);
+      markers.add(Marker(
+          markerId: MarkerId('mylocation'),
+          position: latLng,
+          draggable: false));
     });
   }
 
@@ -79,39 +83,55 @@ class _MapPageState extends State<MapPage> {
     }
   }
 
-   setMarker() async {
-      final query = _news_story!.locations!.first.text;
-      var address = await locationFromAddress(query);
-      first_coords = address as Position?;
-      marker = 
-        new Marker(markerId: MarkerId(_news_story!.title),
-        draggable: false,
-        position: new LatLng(first_coords!.longitude, first_coords!.latitude),
-        infoWindow: InfoWindow(
-          title: _news_story!.title,
-          onTap: (){
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => NewsPage()));
-          }
-        )
-      );
+  setMarkers() async {
+    List<Story>? stories = context.watch<NewsProvider>().getLocationalNews();
+    //final query = _news_story!.locations!.first.text;
+    //var address = await locationFromAddress(query);
+    //first_coords = address as Position?;
 
-      return marker;
+    if (stories == null) {
+      print("There are no stories");
+    } else {
+      for (Story story in stories) {
+        if (story.locations == null) {
+          print("There are no locations in this news");
+        } else {
+          for (int index = 0; index < story.locations!.length; index++) {
+            if (story.locations![index].latlng != null) {
+              markers.add(new Marker(
+                  markerId: MarkerId(story.title),
+                  draggable: false,
+                  position: new LatLng(story.locations![index].latlng!.latitude,
+                      story.locations![index].latlng!.longitude),
+                  infoWindow: InfoWindow(
+                      title: story.title,
+                      snippet: story.locations?[index].placemark?.name,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => NewsPage()));
+                      })));
+            }
+          }
+        }
+      }
     }
-  
+  }
+
   Widget build(BuildContext context) {
+    setMarkers();
     return Scaffold(
       body: Stack(
         children: [
           GoogleMap(
-              zoomControlsEnabled: false,
-              initialCameraPosition: initialLocation,
-              markers: Set.of((marker != null) ? [marker!] : []), 
-              onMapCreated: (GoogleMapController controller) {
-                _controller = controller;
-              },
-              ),
-          
+            zoomControlsEnabled: false,
+            initialCameraPosition: initialLocation,
+            markers: Set.of(markers),
+            onMapCreated: (GoogleMapController controller) {
+              _controller = controller;
+            },
+          ),
           Positioned(
             bottom: 10,
             right: 5,
@@ -126,6 +146,9 @@ class _MapPageState extends State<MapPage> {
                 shape: CircleBorder(),
                 onPressed: () {
                   mapLocation();
+                  for (Marker marker in markers) {
+                    print(marker.position.toString());
+                  }
                 }),
           ),
         ],
