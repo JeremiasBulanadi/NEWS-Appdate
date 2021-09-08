@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../models/user.dart';
 import '../widgets/news_card.dart';
 import '../services/auth.dart';
+import '../services/database.dart';
 import 'suggestionPage.dart';
 import 'mapPage.dart';
 import 'news.dart';
@@ -91,7 +92,9 @@ class _HomePageState extends State<HomePage> {
                 if (user != null) {
                   auth.signOut();
                 } else {
-                  auth.signInWithGoogle();
+                  await auth.signInWithGoogle();
+                  await DatabaseService(uid: user!.uid)
+                      .updateUserData({"#sampleKey": 2, "#fancyweather": 5});
                 }
               },
             )
