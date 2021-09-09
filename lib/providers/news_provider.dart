@@ -28,20 +28,37 @@ class NewsProvider with ChangeNotifier {
     // print(
     //     "Country: ${userPlacemark?.country} (${userPlacemark?.isoCountryCode})");
 
-    newsData.aylienData = await fetchAylienNews({
+    Map<String, String> queryParameters = {
       "language": "en",
-      "source.locations.country[]": userPlacemark?.isoCountryCode ?? "",
-      "entities.surface_forms.text[]": userPlacemark?.locality ??
-          userPlacemark?.subAdministrativeArea ??
-          userPlacemark?.administrativeArea ??
-          "",
-    }); // {} Empty map, put some contents for the query
-    if (newsData.aylienData!.stories!.length == 0) {
-      newsData.aylienData = await fetchAylienNews({
-        "language": "en",
-        "source.locations.country[]": userPlacemark?.isoCountryCode ?? "",
-      });
+    };
+    if (userPlacemark?.isoCountryCode != null) {
+      queryParameters["source.scopes.country[]"] =
+          userPlacemark?.isoCountryCode ?? "";
+      queryParameters["source.locations.country[]"] =
+          userPlacemark?.isoCountryCode ?? "";
     }
+
+    if (userPlacemark?.locality != null && userPlacemark?.locality != "") {
+      if (userPlacemark?.subAdministrativeArea != null &&
+          userPlacemark?.subAdministrativeArea != "") {
+        queryParameters["aql"] =
+            'body:("${userPlacemark!.locality}" AND "${userPlacemark.subAdministrativeArea}")';
+      } else {
+        queryParameters["aql"] = 'body:("${userPlacemark!.locality}")';
+      }
+    } else if (userPlacemark?.subAdministrativeArea != null &&
+        userPlacemark?.subAdministrativeArea != "") {
+      queryParameters["aql"] =
+          'body:("${userPlacemark!.subAdministrativeArea}")';
+    }
+
+    newsData.aylienData = await fetchAylienNews(
+        queryParameters); // {} Empty map, put some contents for the query
+
+    if (newsData.aylienData == null) {
+      print("AYLIEN API ERROR: This shit empty");
+    }
+
     newsData.aylienData!
         .getNewsLocations(); // Heavy work, this is. Locks threads, it does.
     newsData.locationalNews = [];

@@ -4,10 +4,14 @@ import '../services/geocoding.dart';
 
 class Loc {
   Loc(String loc) {
+    // latlng = null;
+    // placemark = null;
+    // addressFromPlacemark = null;
     getDetails(loc);
   }
 
   void getDetails(String loc) async {
+    print("Getting details for location: ${loc}");
     this.text = loc;
     // pesky no value strings aint gettin in my neighborhood
     if (loc != '') {
@@ -18,8 +22,13 @@ class Loc {
           await getPlacemark(this.latlng?.latitude, this.latlng?.longitude);
       // a ready to use address String for readability purposes
       if (this.placemark != null) {
-        this.addressFromPlacemark =
-            "${this.placemark?.subThoroughfare} ${this.placemark?.thoroughfare} ${this.placemark?.subLocality} ${this.placemark?.locality} ${this.placemark?.subAdministrativeArea} ${this.placemark?.administrativeArea} ${this.placemark?.country}";
+        try {
+          this.addressFromPlacemark =
+              "${this.placemark?.subThoroughfare} ${this.placemark?.thoroughfare} ${this.placemark?.subLocality} ${this.placemark?.locality} ${this.placemark?.subAdministrativeArea} ${this.placemark?.administrativeArea} ${this.placemark?.country}";
+        } catch (err) {
+          this.addressFromPlacemark = null;
+          print(err);
+        }
       } else {
         this.addressFromPlacemark = null;
       }

@@ -22,7 +22,7 @@ class AylienData {
     required this.publishedAtStart,
   });
 
-  String nextPageCursor;
+  String? nextPageCursor;
   List<Story>? stories;
   DateTime? publishedAtStart;
 

@@ -49,6 +49,7 @@ class _MapPageState extends State<MapPage> {
         LatLng(_currentPosition!.latitude, _currentPosition!.longitude);
     this.setState(() {
       markers.add(Marker(
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
           markerId: MarkerId('mylocation'),
           position: latLng,
           draggable: false));
@@ -83,6 +84,7 @@ class _MapPageState extends State<MapPage> {
   }
 
   setMarkers() async {
+    markers = [];
     List<Story>? stories =
         context.watch<NewsProvider>().newsData.locationalNews;
     if (stories == null) {

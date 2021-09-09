@@ -4,7 +4,6 @@
 
 // TODO:
 // - Make something that will inform if API isn't working
-// - Make a startup page informing users that this app is experimental
 
 import 'package:flutter/material.dart';
 import 'package:news_appdate/providers/news_provider.dart';
