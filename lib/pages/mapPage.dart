@@ -110,7 +110,7 @@ class _MapPageState extends State<MapPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => NewsPage()));
+                                builder: (context) => NewsPage(story: story)));
                       })));
             }
           }

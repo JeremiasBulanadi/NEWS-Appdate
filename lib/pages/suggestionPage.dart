@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:news_appdate/widgets/recommended_news_list.dart';
 import 'package:provider/provider.dart';
 import 'newsPage.dart';
+import 'TESTnewsPage.dart';
 
 class SuggestionPage extends StatefulWidget {
   @override
@@ -68,7 +69,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
                 textColor: Colors.blue,
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => NewsPage()));
+                      MaterialPageRoute(builder: (context) => TESTNewsPage()));
                 },
                 child: Text(
                   'View',

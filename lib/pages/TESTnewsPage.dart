@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import '../models/aylien_data.dart';
 
-class NewsPage extends StatefulWidget {
-  const NewsPage({Key? key, required this.story}) : super(key: key);
-  final Story story;
+class TESTNewsPage extends StatefulWidget {
+  const TESTNewsPage({Key? key}) : super(key: key);
 
   @override
-  _NewsPageState createState() => _NewsPageState();
+  _TESTNewsPageState createState() => _TESTNewsPageState();
 }
 
-class _NewsPageState extends State<NewsPage> {
-  String placeholderImage = 'lib/assets/placeholder.jpg';
-
+class _TESTNewsPageState extends State<TESTNewsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +52,7 @@ class _NewsPageState extends State<NewsPage> {
               padding: EdgeInsets.only(bottom: 25),
               child: Align(
                 child: Text(
-                  widget.story.title,
+                  "Lorem Ipsum",
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
                 alignment: Alignment.centerLeft,
@@ -64,57 +60,31 @@ class _NewsPageState extends State<NewsPage> {
             ),
             Padding(
               padding: EdgeInsets.only(bottom: 25),
-              child: Align(
-                child: InkWell(
-                    child: Text(
-                      widget.story.links?.permalink ?? "N/A",
-                      style: TextStyle(fontSize: 10),
-                    ),
-                    onTap: () {
-                      Clipboard.setData(ClipboardData(
-                              text: widget.story.links?.permalink ?? ""))
-                          .then((_) {
-                        Scaffold.of(context).showSnackBar(SnackBar(
-                            content: Text("Link copied to clipboard")));
-                      });
-                    }),
-                alignment: Alignment.centerLeft,
-              ),
+              child: Image.asset('lib/assets/placeholder.jpg'),
             ),
             Padding(
                 padding: EdgeInsets.only(bottom: 25),
-                child: FadeInImage.assetNetwork(
-                    placeholder: placeholderImage,
-                    image: widget.story.media == null ||
-                            widget.story.media!.length == 0
-                        ? placeholderImage
-                        : widget.story.media?.first.url ?? placeholderImage)),
-            Padding(
-                padding: EdgeInsets.only(bottom: 25),
-                child: Text(widget.story.body ?? "N/A")),
+                child: Text(
+                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.')),
             Padding(
               padding: EdgeInsets.only(bottom: 25),
               child: Align(
-                child: (widget.story.hashtags == null ||
-                        widget.story.hashtags!.length == 0)
-                    ? Text("No hashtags")
-                    : ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: widget.story.hashtags!.length,
-                        itemBuilder: (context, index) {
-                          final hashtag = widget.story.hashtags?[index];
-
-                          if (hashtag != null) {
-                            return ListTile(
-                              title: Text(hashtag),
-                            );
-                          } else {
-                            return ListTile(
-                              title: Text("N/A"),
-                            );
-                          }
-                        }),
+                child: Row(
+                  children: [
+                    Text(
+                      '#Placeholder1',
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                    Text(
+                      '#Placeholder2',
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                    Text(
+                      '#Placeholder3',
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                  ],
+                ),
                 alignment: Alignment.centerLeft,
               ),
             ),

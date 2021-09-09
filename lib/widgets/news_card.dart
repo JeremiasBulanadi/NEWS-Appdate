@@ -52,9 +52,9 @@ class NewsCard extends StatelessWidget {
           child: Text(
             // Stupid ahead
             (story.summary?.sentences?.length == 0
-                    ? "N/A"
+                    ? "Click \"View\" to read more"
                     : story.summary?.sentences?.first) ??
-                "N/A",
+                "Click \"View\" to read more",
             overflow: TextOverflow.ellipsis,
             maxLines: 3,
             softWrap: true,
@@ -68,8 +68,10 @@ class NewsCard extends StatelessWidget {
             FlatButton(
               textColor: Colors.blue,
               onPressed: () => {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => NewsPage()))
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => NewsPage(story: story)))
               },
               child: Text(
                 'View',
