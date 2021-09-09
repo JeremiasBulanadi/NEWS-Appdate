@@ -8,4 +8,5 @@
 const AYLIEN_APP_ID = "5ea0e49a";
 const AYLIEN_APP_KEY = "4d35948e191951ea198f01306678cd28";
 const AYLIEN_AUTH = "api.aylien.com";
-const AYLIEN_PATH = "/news/stories";
+const AYLIEN_STORIES_PATH = "/news/stories";
+const AYLIEN_TRENDS_PATH = "/news/trends";

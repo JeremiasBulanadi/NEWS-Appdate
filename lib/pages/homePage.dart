@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/user.dart';
-import '../widgets/news_card.dart';
 import '../services/auth.dart';
 import '../services/database.dart';
 import 'suggestionPage.dart';
@@ -14,6 +13,7 @@ import 'personaltagPage.dart';
 
 //For testing Only
 import 'package:firebase_auth/firebase_auth.dart';
+import '../providers/news_provider.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -71,6 +71,17 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => GlobalTags()));
+
+                context.read<NewsProvider>().updateLocationalNews();
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.star),
+              title: Text('Personal Hashtag'),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => PersonalTags()));
+
                 FirebaseAuth.instance.authStateChanges().listen((User? user) {
                   if (user == null) {
                     print('User is currently signed out!');
@@ -78,14 +89,6 @@ class _HomePageState extends State<HomePage> {
                     print('User is signed in!');
                   }
                 });
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.star),
-              title: Text('Personal Hashtag'),
-              onTap: () {
-                Navigator.push(context, 
-                  MaterialPageRoute(builder: (context) => PersonalTags()));
               },
             ),
             ListTile(

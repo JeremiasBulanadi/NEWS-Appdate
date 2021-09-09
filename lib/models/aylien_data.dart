@@ -64,7 +64,7 @@ class AylienData {
       // Iterattes through all entities in the news story
       for (int j = 0; j < this.stories![i].entities!.length; j++) {
         // for debugging purposes, might delete later
-        print(this.stories![i].entities![j].types);
+        //print(this.stories![i].entities![j].types);
 
         // sometimes entities don't have types, this is a workaround null checker
         if (this.stories![i].entities![j].types == null) {
@@ -73,7 +73,7 @@ class AylienData {
           // Gotta have this
           if (this.stories![i].entities![j].body!.surfaceForms!.length > 0) {
             // For debugging purposes, really fills up the console, will probs delete
-            print(this.stories![i].entities![j].body!.surfaceForms![0].text);
+            // print(this.stories![i].entities![j].body!.surfaceForms![0].text);
 
             // Instantiates the filtered entity and stores it in the locations array
             locations.add(

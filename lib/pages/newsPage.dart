@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../models/location.dart';
 import '../models/aylien_data.dart';
 
 class NewsPage extends StatefulWidget {
@@ -68,14 +69,16 @@ class _NewsPageState extends State<NewsPage> {
                 child: InkWell(
                     child: Text(
                       widget.story.links?.permalink ?? "N/A",
-                      style: TextStyle(fontSize: 10),
+                      style: TextStyle(fontSize: 10, color: Colors.blueGrey),
                     ),
                     onTap: () {
                       Clipboard.setData(ClipboardData(
                               text: widget.story.links?.permalink ?? ""))
                           .then((_) {
-                        Scaffold.of(context).showSnackBar(SnackBar(
-                            content: Text("Link copied to clipboard")));
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: const Text('Link copied to clipboard'),
+                          duration: const Duration(seconds: 1),
+                        ));
                       });
                     }),
                 alignment: Alignment.centerLeft,
@@ -95,26 +98,9 @@ class _NewsPageState extends State<NewsPage> {
             Padding(
               padding: EdgeInsets.only(bottom: 25),
               child: Align(
-                child: (widget.story.hashtags == null ||
-                        widget.story.hashtags!.length == 0)
-                    ? Text("No hashtags")
-                    : ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: widget.story.hashtags!.length,
-                        itemBuilder: (context, index) {
-                          final hashtag = widget.story.hashtags?[index];
-
-                          if (hashtag != null) {
-                            return ListTile(
-                              title: Text(hashtag),
-                            );
-                          } else {
-                            return ListTile(
-                              title: Text("N/A"),
-                            );
-                          }
-                        }),
+                child: Text(widget.story.hashtags?.join("   ") ?? "No hashtags",
+                    style:
+                        TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
                 alignment: Alignment.centerLeft,
               ),
             ),
@@ -122,69 +108,28 @@ class _NewsPageState extends State<NewsPage> {
               child: Column(
                 children: [
                   Align(
-                    child: Text(
-                      'Locations:',
-                      style: TextStyle(color: Colors.black54),
+                    child: Padding(
+                      child: Text(
+                        'Locations:',
+                        style: TextStyle(color: Colors.black54),
+                      ),
+                      padding: EdgeInsets.only(bottom: 10),
                     ),
                     alignment: Alignment.centerLeft,
                   ),
                   Align(
-                    child: Row(
+                    child: Column(
                       children: [
-                        Text(
-                          'Placeholder1',
-                          style: TextStyle(color: Colors.black54),
-                        ),
-                        SizedBox(
-                          height: 18,
-                          width: 18,
-                          child: IconButton(
-                              icon: Icon(Icons.location_searching_outlined,
-                                  size: 15),
-                              onPressed: () {}),
-                        )
+                        for (Loc location in widget.story.locations ?? [])
+                          ListTile(
+                            title: Text(location.text),
+                            subtitle: Text(location.addressFromPlacemark ??
+                                "Cannot find location"),
+                          ),
                       ],
                     ),
                     alignment: Alignment.centerLeft,
                   ),
-                  Align(
-                    child: Row(
-                      children: [
-                        Text(
-                          'Placeholder2',
-                          style: TextStyle(color: Colors.black54),
-                        ),
-                        SizedBox(
-                          height: 18,
-                          width: 18,
-                          child: IconButton(
-                              icon: Icon(Icons.location_searching_outlined,
-                                  size: 15),
-                              onPressed: () {}),
-                        )
-                      ],
-                    ),
-                    alignment: Alignment.centerLeft,
-                  ),
-                  Align(
-                    child: Row(
-                      children: [
-                        Text(
-                          'Placeholder3',
-                          style: TextStyle(color: Colors.black54),
-                        ),
-                        SizedBox(
-                          height: 18,
-                          width: 18,
-                          child: IconButton(
-                              icon: Icon(Icons.location_searching_outlined,
-                                  size: 15),
-                              onPressed: () {}),
-                        )
-                      ],
-                    ),
-                    alignment: Alignment.centerLeft,
-                  )
                 ],
               ),
               alignment: Alignment.centerLeft,

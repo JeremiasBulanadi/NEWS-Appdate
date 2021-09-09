@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:news_appdate/pages/news.dart';
 import 'package:provider/provider.dart';
 import '../widgets/news_card.dart';
-import '../models/location.dart';
 import '../models/aylien_data.dart';
 import '../widgets/marker_widget.dart';
 import '../providers/news_provider.dart';
@@ -84,7 +83,11 @@ class _MapPageState extends State<MapPage> {
   }
 
   setMarkers() async {
-    List<Story>? stories = context.watch<NewsProvider>().getLocationalNews();
+    List<Story>? stories =
+        context.watch<NewsProvider>().newsData.locationalNews;
+    if (stories == null) {
+      context.read<NewsProvider>().updateLocationalNews();
+    }
     //final query = _news_story!.locations!.first.text;
     //var address = await locationFromAddress(query);
     //first_coords = address as Position?;
@@ -105,7 +108,7 @@ class _MapPageState extends State<MapPage> {
                       story.locations![index].latlng!.longitude),
                   infoWindow: InfoWindow(
                       title: story.title,
-                      snippet: story.locations?[index].placemark?.name,
+                      snippet: story.locations?[index].addressFromPlacemark,
                       onTap: () {
                         Navigator.push(
                             context,

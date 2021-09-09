@@ -17,7 +17,7 @@ class _RecommendedNewsListState extends State<RecommendedNewsList> {
         context.watch<NewsProvider>().newsData.recommendedNews;
 
     if (recommendedNews == null) {
-      context.read<NewsProvider>().updateNews();
+      context.read<NewsProvider>().updateRecommendedNews();
       return Center(
         child: CircularProgressIndicator(),
       );

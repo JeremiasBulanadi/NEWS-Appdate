@@ -17,7 +17,7 @@ class _NewsListState extends State<NewsList> {
     var locationalNews = context.watch<NewsProvider>().newsData.locationalNews;
 
     if (locationalNews == null) {
-      context.read<NewsProvider>().updateNews();
+      context.read<NewsProvider>().updateLocationalNews();
       return Center(
         child: CircularProgressIndicator(
           strokeWidth: 10,

@@ -9,13 +9,13 @@ import 'package:location/location.dart' as LOC;
 // - Actually implement getting user location instead of just testing geocoding
 
 // This is for testing, will be replaced
-Future<dynamic> getUserLocation() async {
+Future<LOC.LocationData?> getUserLocation() async {
   var location = new LOC.Location();
   var _serviceEnabled = await location.serviceEnabled();
   if (!_serviceEnabled) {
     _serviceEnabled = await location.requestService();
     if (!_serviceEnabled) {
-      return;
+      return null;
     }
   }
 
@@ -23,11 +23,11 @@ Future<dynamic> getUserLocation() async {
   if (_permissionGranted == LOC.PermissionStatus.denied) {
     _permissionGranted = await location.requestPermission();
     if (_permissionGranted != LOC.PermissionStatus.granted) {
-      return;
+      return null;
     }
   }
 
-  var currentLocation = await location.getLocation();
+  LOC.LocationData currentLocation = await location.getLocation();
 
   return currentLocation;
 }
@@ -45,11 +45,11 @@ Future<Location?> getLatLng(String location) async {
 
 // Will give out a Placemark object with the address...
 // ...Unless latlng couldn't be found, in which case it returns null
-Future<Placemark?> getPlacemark(Location? location) async {
-  if (location != null) {
+Future<Placemark?> getPlacemark(double? latitude, double? longitude) async {
+  if (latitude != null && longitude != null) {
     try {
       List<Placemark> placemarks =
-          await placemarkFromCoordinates(location.latitude, location.longitude);
+          await placemarkFromCoordinates(latitude, longitude);
       return placemarks[0];
     } on PlatformException catch (e) {
       return null;
