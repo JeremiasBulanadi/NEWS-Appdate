@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:news_appdate/providers/news_provider.dart';
-import 'package:news_appdate/widgets/news_card.dart';
-import '../widgets/news_list.dart';
+import '../widgets/recommended_news_list.dart';
 import 'package:provider/provider.dart';
 import 'package:news_appdate/widgets/search_widget.dart';
-import 'newsPage.dart';
 
 class NewsCards extends StatefulWidget {
   @override
@@ -18,7 +15,8 @@ class _NewsCardsState extends State<NewsCards> {
     return Scaffold(
       body: Stack(
         children: [
-          Padding(padding: EdgeInsets.only(top: 70), child: NewsList()),
+          Padding(
+              padding: EdgeInsets.only(top: 70), child: RecommendedNewsList()),
           Positioned(
               child: SearchWidget(
                   text: "Placeholder",
@@ -26,11 +24,6 @@ class _NewsCardsState extends State<NewsCards> {
                   hintText: 'Search News / Location')),
         ],
       ),
-      floatingActionButton: // FOR TESTING ONLY
-          FloatingActionButton(
-              onPressed: () => setState(() {
-                    context.read<NewsProvider>().updateLocationalNews();
-                  })),
     );
   }
 }
