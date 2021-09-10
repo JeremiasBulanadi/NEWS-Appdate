@@ -6,6 +6,9 @@ class MessagePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String message =
+        "DISCLAIMER\n\nThis is an experimental prototype that makes use of News Scraping, Natural Language Processing, and Geocoding to extract metadata based on its content. We cannot guarantee 100% accuracy with the findings. Please double check the official sources and use at your own discretion";
+
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -17,8 +20,12 @@ class MessagePage extends StatelessWidget {
               color: Colors.green[100],
             ),
             child: Text(
-              'This is a prototype application that would be using the user\'s location to be able to locate news in their vicinity. By clicking "I understand" you are aware of the functionality of the application and will be directed to the main app',
+              message,
               textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+              ),
             ),
           ),
           FlatButton(
