@@ -3,6 +3,7 @@ class AppUser {
   final String displayName;
   final String email;
   final String? photoURL;
+  late Map<String, int> hashtagPreference;
 
   AppUser(
       {required this.uid,

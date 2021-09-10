@@ -20,6 +20,11 @@ class AuthService {
     googleSignIn = GoogleSignIn();
   }
 
+  // auth change user stream
+  Stream<AppUser?> get user {
+    return _auth!.authStateChanges().map(_userFromFirebaseUser);
+  }
+
   // Create user object based on Firebase User
   AppUser? _userFromFirebaseUser(User? user) {
     return user != null
@@ -31,11 +36,6 @@ class AuthService {
         : null;
   }
 
-  // auth change user stream
-  Stream<AppUser?> get user {
-    return _auth!.authStateChanges().map(_userFromFirebaseUser);
-  }
-
   // Anonymous Sign-In
   Future<AppUser?> signInAnon() async {
     try {
@@ -44,31 +44,37 @@ class AuthService {
       return _userFromFirebaseUser(user);
     } catch (err) {
       print(err.toString());
+      return null;
     }
   }
 
   // Sign in with Google
-  Future<UserCredential> signInWithGoogle() async {
-    // Trigger the authentication flow
-    googleUser = await GoogleSignIn().signIn();
+  Future<AppUser?> signInWithGoogle() async {
+    try {
+      // Trigger the authentication flow
+      googleUser = await GoogleSignIn().signIn();
 
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser!.authentication;
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser!.authentication;
 
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
 
-    UserCredential userCred =
-        await FirebaseAuth.instance.signInWithCredential(credential);
+      // Signs in with the third party credentials
+      UserCredential userCred =
+          await FirebaseAuth.instance.signInWithCredential(credential);
 
-    //return _userFromFirebaseUser(userCred);
+      User? user = userCred.user;
 
-    // Once signed in, return the UserCredential
-    return userCred;
+      return _userFromFirebaseUser(user);
+    } catch (err) {
+      print(err.toString());
+      return null;
+    }
   }
 
   // Sign Out

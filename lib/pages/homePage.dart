@@ -98,9 +98,11 @@ class _HomePageState extends State<HomePage> {
                 if (user != null) {
                   auth.signOut();
                 } else {
-                  await auth.signInWithGoogle();
-                  await DatabaseService(uid: user!.uid)
+                  AppUser? currentUser = await auth.signInWithGoogle();
+                  print("The id of user is ${currentUser?.uid}");
+                  await DatabaseService(uid: currentUser!.uid)
                       .updateUserData({"#sampleKey": 2, "#fancyweather": 5});
+                  print("Database data sent...?");
                 }
               },
             )
