@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:share_plus/share_plus.dart';
 import '../models/location.dart';
 import '../models/aylien_data.dart';
 
@@ -32,7 +33,10 @@ class _NewsPageState extends State<NewsPage> {
                   Padding(
                     padding: EdgeInsets.only(right: 15),
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        print("I should be sharing right now");
+                        Share.share(widget.story.links?.permalink ?? "");
+                      },
                       icon: Icon(
                         Icons.share,
                         size: 26.0,
