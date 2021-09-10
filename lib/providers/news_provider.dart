@@ -86,6 +86,33 @@ class NewsProvider with ChangeNotifier {
     print("YO, YAH GOTTA SEE THIS!");
     print(newsData.recommendedNews!.length);
   }
+
+  Future<List<Story>?> fetchStoriesQuery(String searchQuery) async {
+    List<Story> stories = [];
+
+    Map<String, String> queryParameters = {
+      "language": "en",
+      "aql": 'body:("$searchQuery")'
+    };
+    AylienData? aylienQueryData = await fetchAylienNews(queryParameters);
+    for (Story story in aylienQueryData.stories ?? []) {
+      print(story.title);
+    }
+    if (aylienQueryData.stories != null &&
+        aylienQueryData.stories!.length > 0) {
+      aylienQueryData.getNewsLocations();
+      stories.addAll(aylienQueryData.stories ?? []);
+      return stories;
+    }
+
+    if (aylienQueryData.nextPageCursor == null) {
+      print("Theres something wrong with the API");
+    } else {
+      print("Theres no results it seems");
+    }
+
+    return null;
+  }
 }
 
 class NewsData {
