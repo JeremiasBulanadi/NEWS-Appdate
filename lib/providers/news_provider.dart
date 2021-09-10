@@ -55,7 +55,7 @@ class NewsProvider with ChangeNotifier {
     newsData.aylienData = await fetchAylienNews(
         queryParameters); // {} Empty map, put some contents for the query
 
-    if (newsData.aylienData == null) {
+    if (newsData.aylienData?.nextPageCursor == null) {
       print("AYLIEN API ERROR: This shit empty");
     }
 
