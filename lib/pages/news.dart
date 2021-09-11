@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:news_appdate/providers/news_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:news_appdate/widgets/search_widget.dart';
 import '../models/aylien_data.dart';
-import '../widgets/news_card.dart';
+import '../widgets/searched_news_list.dart';
 
 class NewsCards extends StatefulWidget {
   @override
@@ -14,9 +12,11 @@ class NewsCards extends StatefulWidget {
 class _NewsCardsState extends State<NewsCards> {
   TextEditingController searchField = TextEditingController();
   List<Story>? searchedNews = [];
+  bool hasSearched = false;
 
   Future<void> searchNews(String query) async {
-    searchedNews = await context.read<NewsProvider>().fetchStoriesQuery(query);
+    await context.read<NewsProvider>().fetchStoriesQuery(query);
+    hasSearched = true;
   }
 
   @override
@@ -26,13 +26,9 @@ class _NewsCardsState extends State<NewsCards> {
         children: [
           Padding(
             padding: EdgeInsets.only(top: 70),
-            child: (searchedNews != null && searchedNews!.length > 0)
-                ? ListView.builder(
-                    itemCount: searchedNews?.length ?? 0,
-                    itemBuilder: (context, index) {
-                      return NewsCard(story: searchedNews![index]);
-                    })
-                : SizedBox(),
+            child: Expanded(
+              child: SearchedNewsList(hasSearched: hasSearched),
+            ),
           ),
           Padding(
               padding: EdgeInsets.fromLTRB(10, 10, 10, 10),

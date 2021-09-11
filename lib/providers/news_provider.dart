@@ -87,8 +87,9 @@ class NewsProvider with ChangeNotifier {
     print(newsData.recommendedNews!.length);
   }
 
-  Future<List<Story>?> fetchStoriesQuery(String searchQuery) async {
-    List<Story> stories = [];
+  Future<void> fetchStoriesQuery(String searchQuery) async {
+    List<Story> tempNews = [];
+    newsData.searchedNews = null;
 
     Map<String, String> queryParameters = {
       "language": "en",
@@ -101,17 +102,19 @@ class NewsProvider with ChangeNotifier {
     if (aylienQueryData.stories != null &&
         aylienQueryData.stories!.length > 0) {
       aylienQueryData.getNewsLocations();
-      stories.addAll(aylienQueryData.stories ?? []);
-      return stories;
+      tempNews.addAll(aylienQueryData.stories ?? []);
     }
 
-    if (aylienQueryData.nextPageCursor == null) {
+    if (aylienQueryData.stories == null) {
       print("Theres something wrong with the API");
-    } else {
+    } else if (aylienQueryData.stories!.length == 0) {
       print("Theres no results it seems");
     }
 
-    return null;
+    if (tempNews.length > 0) {
+      newsData.searchedNews = [];
+      newsData.searchedNews!.addAll(tempNews);
+    }
   }
 }
 
@@ -119,6 +122,7 @@ class NewsData {
   AylienData? aylienData;
   List<Story>? locationalNews;
   List<Story>? recommendedNews;
+  List<Story>? searchedNews;
 }
 
 class TrendsData {
