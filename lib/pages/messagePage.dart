@@ -1,3 +1,4 @@
+import '../services/geocoding.dart';
 import 'package:flutter/material.dart';
 import 'homePage.dart';
 
@@ -32,9 +33,13 @@ class MessagePage extends StatelessWidget {
               child: Text('I understand'),
               color: Colors.green[400],
               textColor: Colors.white,
-              onPressed: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => HomePage()));
+              onPressed: () async {
+                // I just need this to get the user to activate location
+                var userLocation = await getUserLocation();
+                if (userLocation != null) {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => HomePage()));
+                }
               })
         ],
       ),
