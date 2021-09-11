@@ -29,6 +29,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
         ]),
         floatingActionButton: // FOR TESTING ONLY
             FloatingActionButton(
+                backgroundColor: Colors.green,
+                child: Icon(Icons.refresh),
                 onPressed: () => setState(() {
                       context.read<NewsProvider>().updateLocationalNews();
                     })),
