@@ -3,13 +3,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart' as loc;
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import '../models/aylien_data.dart';
 import '../providers/news_provider.dart';
 import 'newsPage.dart';
-
-import 'dart:async';
 
 // This is just for differentiating the markers put on the map
 enum NewsListType { locational, recommended, searched }

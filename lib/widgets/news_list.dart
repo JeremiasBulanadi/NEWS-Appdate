@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/news_provider.dart';
-import '../models/aylien_data.dart';
 import '../widgets/news_card.dart';
 
 class NewsList extends StatefulWidget {

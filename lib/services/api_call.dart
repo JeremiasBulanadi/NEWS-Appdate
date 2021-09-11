@@ -2,11 +2,9 @@
 
 import '../constants/api_path.dart';
 import '../models/aylien_data.dart';
+import '../models/aylien_trends.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
-// TODO:
-// - Do the wikipedia entry for location thing
 
 Future<AylienData> fetchAylienNews(Map<String, String> queryParameters) async {
   // The parameters for the GET request

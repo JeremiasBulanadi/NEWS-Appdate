@@ -5,8 +5,6 @@ import 'package:location/location.dart' as LOC;
 // Gets user location details
 // we mostly just want:
 // ISO Country Code, Country, Subadministrative area, and the Locality
-// TODO:
-// - Actually implement getting user location instead of just testing geocoding
 
 // This is for testing, will be replaced
 Future<LOC.LocationData?> getUserLocation() async {
@@ -38,7 +36,8 @@ Future<Location?> getLatLng(String location) async {
   try {
     List<Location> latlngs = await locationFromAddress(location);
     return latlngs[0];
-  } on NoResultFoundException catch (e) {
+  } on NoResultFoundException catch (err) {
+    print(err);
     return null;
   }
 }
@@ -51,7 +50,8 @@ Future<Placemark?> getPlacemark(double? latitude, double? longitude) async {
       List<Placemark> placemarks =
           await placemarkFromCoordinates(latitude, longitude);
       return placemarks[0];
-    } on PlatformException catch (e) {
+    } on PlatformException catch (err) {
+      print(err);
       return null;
     }
   } else {
