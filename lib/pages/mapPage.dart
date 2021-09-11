@@ -1,20 +1,17 @@
-import 'dart:typed_data';
-import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart' as loc;
 import 'package:flutter/services.dart';
-import 'package:news_appdate/pages/news.dart';
 import 'package:provider/provider.dart';
-import '../widgets/news_card.dart';
 import '../models/aylien_data.dart';
-import '../widgets/marker_widget.dart';
 import '../providers/news_provider.dart';
-import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'newsPage.dart';
 
 import 'dart:async';
+
+// This is just for differentiating the markers put on the map
+enum NewsListType { locational, recommended, searched }
 
 class MapPage extends StatefulWidget {
   @override
@@ -22,7 +19,6 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-  Story? _news_story;
   List<Marker> markers = [];
   LatLng? _initialLocation;
   StreamSubscription? _locationSubscription;
@@ -85,14 +81,43 @@ class _MapPageState extends State<MapPage> {
 
   setMarkers() async {
     markers = [];
-    List<Story>? stories =
-        context.watch<NewsProvider>().newsData.locationalNews;
-    if (stories == null) {
-      context.read<NewsProvider>().updateLocationalNews();
+    NewsData? newsData = context.watch<NewsProvider>().newsData;
+    if (newsData.locationalNews != null &&
+        newsData.locationalNews!.length > 0) {
+      addMarkers(newsData.locationalNews, NewsListType.locational);
+    } else {
+      print("mapPage.dart: Unfortunate, but there is no locational news");
+    }
+
+    if (newsData.recommendedNews != null &&
+        newsData.recommendedNews!.length > 0) {
+      addMarkers(newsData.recommendedNews, NewsListType.recommended);
+    } else {
+      print("mapPage.dart: Unfortunate, but there is no recommended news");
+    }
+
+    if (newsData.searchedNews != null && newsData.searchedNews!.length > 0) {
+      addMarkers(newsData.searchedNews, NewsListType.searched);
+    } else {
+      print("mapPage.dart: Unfortunate, but there is no searched news");
     }
     //final query = _news_story!.locations!.first.text;
     //var address = await locationFromAddress(query);
     //first_coords = address as Position?;
+  }
+
+  addMarkers(List<Story>? stories, NewsListType newsListType) {
+    BitmapDescriptor markerIcon;
+    if (newsListType == NewsListType.locational) {
+      markerIcon =
+          BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed);
+    } else if (newsListType == NewsListType.recommended) {
+      markerIcon =
+          BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen);
+    } else {
+      markerIcon =
+          BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure);
+    }
 
     if (stories == null) {
       print("There are no stories");
@@ -105,6 +130,7 @@ class _MapPageState extends State<MapPage> {
             if (story.locations![index].latlng != null) {
               markers.add(new Marker(
                   markerId: MarkerId(story.title),
+                  icon: markerIcon,
                   draggable: false,
                   position: new LatLng(story.locations![index].latlng!.latitude,
                       story.locations![index].latlng!.longitude),
