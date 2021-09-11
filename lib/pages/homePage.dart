@@ -117,16 +117,16 @@ class _HomePageState extends State<HomePage> {
               icon: Icon(Icons.map, size: 30), title: Text('Map')),
           BottomNavigationBarItem(
               icon: Icon(
-                Icons.dehaze,
+                Icons.search_rounded,
                 size: 30,
               ),
-              title: Text('News')),
+              title: Text('Search')),
           BottomNavigationBarItem(
               icon: Icon(
-                Icons.trending_up,
+                Icons.insert_chart,
                 size: 30,
               ),
-              title: Text('Trending')),
+              title: Text('Recommended')),
         ],
         selectedItemColor: Colors.green,
         elevation: 5.0,
