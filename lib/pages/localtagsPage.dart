@@ -3,20 +3,20 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../providers/news_provider.dart';
 
-class GlobalTags extends StatefulWidget {
-  const GlobalTags({Key? key}) : super(key: key);
+class LocalTags extends StatefulWidget {
+  const LocalTags({Key? key}) : super(key: key);
 
   @override
-  _GlobalTagsState createState() => _GlobalTagsState();
+  _LocalTagsState createState() => _LocalTagsState();
 }
 
-class _GlobalTagsState extends State<GlobalTags> {
+class _LocalTagsState extends State<LocalTags> {
   @override
   Widget build(BuildContext context) {
-    var globalTrends = context.watch<NewsProvider>().trendData.globalTrends;
+    var localTrends = context.watch<NewsProvider>().trendData.localTrends;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Global Trends'),
+        title: Text('Local Trends'),
         backgroundColor: Colors.green[400],
       ),
       body: Column(
@@ -25,7 +25,7 @@ class _GlobalTagsState extends State<GlobalTags> {
               child: ListView(
             padding: EdgeInsets.all(5),
             children: [
-              for (var trend in globalTrends ?? [])
+              for (var trend in localTrends ?? [])
                 InkWell(
                   child: ListTile(
                     title: Text(

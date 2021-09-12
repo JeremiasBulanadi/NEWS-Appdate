@@ -9,6 +9,7 @@ import 'news.dart';
 import 'trendingPage.dart';
 import 'savedNewsPage.dart';
 import 'globaltagPage.dart';
+import 'localtagsPage.dart';
 import 'personaltagPage.dart';
 
 //For testing Only
@@ -70,10 +71,18 @@ class _HomePageState extends State<HomePage> {
             ),
             ListTile(
               leading: Icon(Icons.public),
-              title: Text('Global Hashtag'),
+              title: Text('Global Trends'),
               onTap: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => GlobalTags()));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.public),
+              title: Text('Local Trends'),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LocalTags()));
               },
             ),
             ListTile(
