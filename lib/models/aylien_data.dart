@@ -55,7 +55,7 @@ class AylienData {
   // This one is not from app.quicktype.io
   // This function gets entities that "might" be the location of the news...
   // and instantiates them as Location objects to be stored in each Story object
-  Future<void> getNewsLocations() async {
+  void getNewsLocations() {
     // Iteratates through all the news stories
     for (int i = 0; i < this.stories!.length; i++) {
       // temporary storage for possible locations
