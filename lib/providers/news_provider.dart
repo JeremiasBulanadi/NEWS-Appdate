@@ -8,7 +8,7 @@ import '../services/geocoding.dart';
 
 class NewsProvider with ChangeNotifier {
   NewsData newsData = NewsData();
-  TrendsData trendsData = TrendsData();
+  TrendData trendData = TrendData();
 
   Future<void> updateLocationalNews() async {
     newsData.locationalNews = null;
@@ -116,15 +116,56 @@ class NewsProvider with ChangeNotifier {
       newsData.searchedNews!.addAll(tempNews);
     }
   }
+
+  Future<void> updateGlobalTrends() async {
+    trendData.aylienTrends = null;
+
+    Map<String, String> queryParameter = {
+      "field": "hashtags",
+      "language": "en",
+      "published_at.start": "NOW-1DAY/DAY",
+    };
+
+    trendData.aylienTrends = await getAylienTrends(
+        queryParameter); // {} Empty map, put some contents for the query
+    trendData.globalTrends = [];
+    for (Trend trend in trendData.aylienTrends?.trends ?? []) {
+      trendData.globalTrends!.add(trend);
+    }
+  }
+
+  Future<void> updateLocalTrends() async {
+    trendData.aylienTrends = null;
+
+    LocationData? userLocation = await getUserLocation();
+    Placemark? userPlacemark =
+        await getPlacemark(userLocation?.latitude, userLocation?.longitude);
+
+    Map<String, String> queryParameter = {
+      "field": "hashtags",
+      "language": "en",
+      "published_at.start": "NOW-1DAY/DAY",
+      "source.scopes.country[]": userPlacemark?.isoCountryCode ?? "US",
+    };
+
+    trendData.aylienTrends = await getAylienTrends(
+        queryParameter); // {} Empty map, put some contents for the query
+    trendData.localTrends = [];
+    for (Trend trend in trendData.aylienTrends?.trends ?? []) {
+      trendData.localTrends!.add(trend);
+    }
+  }
 }
 
 class NewsData {
   AylienData? aylienData;
   List<Story>? locationalNews;
   List<Story>? recommendedNews;
-  List<Story>? searchedNews;
+  List<Story>? searchedNews = [];
 }
 
-class TrendsData {
+class TrendData {
   AylienTrends? aylienTrends;
+  List<Trend>? globalTrends;
+  List<Trend>? localTrends;
 }

@@ -35,11 +35,21 @@ Future<AylienData> fetchAylienNews(Map<String, String> queryParameters) async {
   return await getAylienData(uri);
 }
 
-Future<AylienData> fetchAylienTrends(
+Future<AylienTrends> getAylienTrends(
     Map<String, String> queryParameters) async {
   var uri = Uri.https(AYLIEN_AUTH, AYLIEN_TRENDS_PATH, queryParameters);
 
-  return await getAylienData(uri);
+  // Sends the GET request to the AYLIEN API
+  var response = await http.get(
+    uri,
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'X-Application-ID': AYLIEN_APP_ID,
+      'X-Application-Key': AYLIEN_APP_KEY,
+    },
+  );
+  // converts the response to an json object and returns it
+  return aylienTrendsFromJson(utf8.decode(response.bodyBytes));
 }
 
 // the function that actually calls the API
