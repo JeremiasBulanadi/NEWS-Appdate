@@ -90,6 +90,7 @@ class NewsProvider with ChangeNotifier {
   Future<void> fetchStoriesQuery(String searchQuery) async {
     List<Story> tempNews = [];
     newsData.searchedNews = null;
+    notifyListeners();
 
     Map<String, String> queryParameters = {
       "language": "en",
@@ -115,6 +116,7 @@ class NewsProvider with ChangeNotifier {
       newsData.searchedNews = [];
       newsData.searchedNews!.addAll(tempNews);
     }
+    notifyListeners();
   }
 
   Future<void> updateGlobalTrends() async {
@@ -132,6 +134,9 @@ class NewsProvider with ChangeNotifier {
     for (Trend trend in trendData.aylienTrends?.trends ?? []) {
       trendData.globalTrends!.add(trend);
     }
+
+    notifyListeners();
+    print("We know what the world wants");
   }
 
   Future<void> updateLocalTrends() async {
@@ -154,6 +159,9 @@ class NewsProvider with ChangeNotifier {
     for (Trend trend in trendData.aylienTrends?.trends ?? []) {
       trendData.localTrends!.add(trend);
     }
+
+    notifyListeners();
+    print("We know what your neighbors want");
   }
 }
 
