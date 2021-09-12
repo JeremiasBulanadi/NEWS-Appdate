@@ -36,6 +36,9 @@ class _HomePageState extends State<HomePage> {
     final user = Provider.of<AppUser?>(context);
     print(user);
 
+    context.read<NewsProvider>().updateGlobalTrends();
+    context.read<NewsProvider>().updateLocalTrends();
+
     return Scaffold(
       appBar: AppBar(
         title: Text("News Appdate"),
@@ -71,8 +74,6 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => GlobalTags()));
-
-                context.read<NewsProvider>().updateLocationalNews();
               },
             ),
             ListTile(
