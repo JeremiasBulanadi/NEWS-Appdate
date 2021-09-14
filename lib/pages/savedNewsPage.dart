@@ -1,6 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import '../models/user.dart';
+import '../models/aylien_data.dart';
+import '../services/auth.dart';
+import '../services/database.dart';
+import '../widgets/news_card.dart';
 
 class SavedNews extends StatefulWidget {
   const SavedNews({Key? key}) : super(key: key);
@@ -12,11 +17,8 @@ class SavedNews extends StatefulWidget {
 class _SavedNewsState extends State<SavedNews> {
   @override
   Widget build(BuildContext context) {
-    var userData = Provider.of<QuerySnapshot>(context);
-
-    for (var doc in userData.docs) {
-      print(doc.data());
-    }
+    //var userData = Provider.of<QuerySnapshot>(context);
+    AppUser? appUser = Provider.of<AppUser?>(context);
 
     return Scaffold(
         appBar: AppBar(
@@ -27,19 +29,26 @@ class _SavedNewsState extends State<SavedNews> {
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
-        body: Column(children: [
-          Expanded(
-            child: ListView(
-              padding: EdgeInsets.all(15),
-              scrollDirection: Axis.vertical,
-              children: [
-                firstCard(),
-                secondCard(),
-                thirdCard(),
-              ],
-            ),
-          ),
-        ]));
+        body: FutureBuilder<List<Story>?>(
+            future: DatabaseService().savedStoriesOfUser(appUser!.uid),
+            builder: (context, snapshot) {
+              print("our saved stories are: ${snapshot.data}");
+              return Column(children: [
+                Expanded(
+                    child: ListView.builder(
+                        itemCount: snapshot.data?.length ?? 0,
+                        itemBuilder: (context, index) {
+                          if (snapshot.data != null &&
+                              snapshot.data!.length > 0) {
+                            return NewsCard(
+                              story: snapshot.data![index],
+                            );
+                          } else {
+                            return SizedBox();
+                          }
+                        })),
+              ]);
+            }));
   }
 
   Widget firstCard() => Card(

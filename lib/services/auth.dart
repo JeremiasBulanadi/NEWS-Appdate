@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import '../services/database.dart';
 import '../models/user.dart';
 
 class AuthService {
@@ -70,7 +71,9 @@ class AuthService {
 
       User? user = userCred.user;
 
-      return _userFromFirebaseUser(user);
+      AppUser? appUser = _userFromFirebaseUser(user);
+
+      return appUser;
     } catch (err) {
       print(err.toString());
       return null;

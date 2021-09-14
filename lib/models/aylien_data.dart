@@ -7,6 +7,8 @@
 //  with the exception of the getNewsLocation function
 //  I will not elaborate further cuz there's too much here to explain
 
+//  TODO: Convert gelocating news into a stream (Check out flutter's official tutorial on streams on youtube);
+
 import 'package:news_appdate/models/location.dart';
 import 'dart:convert';
 

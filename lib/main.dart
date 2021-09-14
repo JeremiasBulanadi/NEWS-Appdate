@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:news_appdate/providers/news_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:location/location.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import './services/geocoding.dart';
+import './services/database.dart';
 import './services/auth.dart';
 import './models/user.dart';
 import './pages/wrapper.dart';
@@ -27,7 +29,9 @@ void main() {
           return getUserLocation();
         },
         initialData: null,
-      )
+      ),
+      // StreamProvider<QuerySnapshot?>(
+      //     create: (_) => DatabaseService().userData, initialData: null)
     ],
     child: Wrapper(),
   ));

@@ -1,20 +1,111 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../models/aylien_data.dart';
+import 'dart:convert';
+import 'dart:async';
+
+// TODO: Fix saving
 
 class DatabaseService {
-  final String uid;
-  DatabaseService({required this.uid});
+  final String? uid;
+  DatabaseService({this.uid});
 
   // user reference
   final CollectionReference userCollection =
       FirebaseFirestore.instance.collection('users');
 
   // collection reference
-  final CollectionReference articleCollection =
-      FirebaseFirestore.instance.collection('articles');
+  final CollectionReference storiesCollection =
+      FirebaseFirestore.instance.collection('stories');
 
-  Future updateUserData(Map<String, int> hashtagPreferences) async {
+  Future updateUserData(
+      Map<String, int> hashtagPreferences, List<String> savedStories) async {
     return await userCollection.doc(uid).set({
       'hashtagPreferences': hashtagPreferences,
+      'savedStories': savedStories,
     });
+  }
+
+  // List<Story> _getStoryFromSnapshot(QuerySnapshot snapshot) {
+  //   return snapshot.documents.map((doc) {
+  //     //return Story()
+  //   });
+  // }
+
+  Future<void> addStory(String? uid, Story story) async {
+    var storyJson = story.toJson();
+    storyJson["created"] = Timestamp.now();
+
+    if (uid != null) {
+      await userCollection
+          .doc(uid)
+          .update({
+            "savedStories": FieldValue.arrayUnion([story.id.toString()])
+          })
+          .then((value) => print(
+              "${story.id} has been succesfully added to saved stories of user $uid"))
+          .catchError((err) => print(err.toString()));
+
+      return await storiesCollection
+          .doc(story.id.toString())
+          .set(story.toJson())
+          .then((val) => print("Story added: ${story.id}"))
+          .catchError((err) => print(err.toString()));
+    }
+  }
+
+  // get user info stream
+  Future<DocumentReference> get userData async {
+    return userCollection.doc(uid);
+  }
+
+  Stream<bool> isStorySaved(String? uid, String storyId) async* {
+    DatabaseService()
+        .userCollection
+        .doc(uid)
+        .collection("savedStories")
+        .snapshots()
+        .listen((event) {
+      // return stories.contains(storyId);
+    });
+  }
+
+  Future<List<Story>?> savedStoriesOfUser(String uid) async {
+    DocumentSnapshot<Object?> user = await userCollection.doc(uid).get();
+    Map<String, dynamic> userSaveJson = user.data() as Map<String, dynamic>;
+    print(userSaveJson);
+    //storyIds.addAll(); // This thing stops code flow for some reason
+
+    List<Story> stories = [];
+
+    for (String id in userSaveJson['savedStories']) {
+      await storiesCollection.doc(id).get().then((value) {
+        Story story;
+        Map<String, dynamic> storyJson = value.data() as Map<String, dynamic>;
+        story = Story.fromJson(storyJson);
+        stories.add(story);
+      });
+    }
+
+    return stories;
+  }
+
+  Future<bool> checkIfStoryInDatabase(String storyId) async {
+    try {
+      var doc = await storiesCollection.doc(storyId).get();
+      return doc.exists;
+    } catch (err) {
+      print(err.toString());
+      throw err;
+    }
+  }
+
+  Future<bool> checkIfUserInDatabase(String? uid) async {
+    try {
+      var doc = await userCollection.doc(uid).get();
+      return doc.exists;
+    } catch (err) {
+      print(err.toString());
+      throw err;
+    }
   }
 }

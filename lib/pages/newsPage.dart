@@ -1,6 +1,11 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../services/database.dart';
+import '../models/user.dart';
 import '../models/location.dart';
 import '../models/aylien_data.dart';
 
@@ -17,6 +22,8 @@ class _NewsPageState extends State<NewsPage> {
 
   @override
   Widget build(BuildContext context) {
+    AppUser? appUser = Provider.of<AppUser?>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('News Page'),
@@ -43,12 +50,53 @@ class _NewsPageState extends State<NewsPage> {
                       ),
                     ),
                   ),
-                  IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.save,
-                        size: 26.0,
-                      ))
+                  StreamBuilder<bool>(
+                      stream: DatabaseService().isStorySaved(
+                          appUser?.uid, widget.story.id.toString()),
+                      builder: (context, snapshot) {
+                        return Opacity(
+                          opacity: (appUser != null) ? 1 : 0.5,
+                          child: IconButton(
+                              onPressed: () async {
+                                print(snapshot);
+                                if (appUser == null) {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                    content: const Text(
+                                        'You must be logged in to save stories'),
+                                    duration: const Duration(seconds: 2),
+                                  ));
+                                } else if (snapshot.hasError) {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                    content: const Text(
+                                        'There was an error, please try again'),
+                                    duration: const Duration(seconds: 2),
+                                  ));
+                                } else if (snapshot.data ?? false) {
+                                  // TODO: Remove story
+                                } else {
+                                  DatabaseService()
+                                      .addStory(appUser.uid, widget.story)
+                                      .then((val) {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      content: const Text(
+                                          'Story sucessfully added to bookmarks'),
+                                      duration: const Duration(seconds: 1),
+                                    ));
+                                  });
+                                  setState(() {});
+                                }
+                              },
+                              icon: Icon(
+                                (snapshot.data ?? false)
+                                    ? Icons.bookmark_added
+                                    : Icons.bookmark_border,
+                                size: 26.0,
+                              )),
+                        );
+                      })
                 ],
               )),
         ],

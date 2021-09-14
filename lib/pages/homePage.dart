@@ -33,12 +33,17 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    AuthService auth = AuthService();
-    final user = Provider.of<AppUser?>(context);
-    print(user);
+    @override
+    void initState() {
+      super.initState();
 
-    context.read<NewsProvider>().updateGlobalTrends();
-    context.read<NewsProvider>().updateLocalTrends();
+      context.read<NewsProvider>().updateGlobalTrends();
+      context.read<NewsProvider>().updateLocalTrends();
+    }
+
+    AuthService auth = AuthService();
+    final appUser = Provider.of<AppUser?>(context);
+    print(appUser);
 
     return Scaffold(
       appBar: AppBar(
@@ -52,21 +57,31 @@ class _HomePageState extends State<HomePage> {
           children: [
             UserAccountsDrawerHeader(
               accountName:
-                  Text(user != null ? user.displayName : "Not logged in"),
-              accountEmail: Text(user != null ? user.email : "N/A"),
+                  Text(appUser != null ? appUser.displayName : "Not logged in"),
+              accountEmail: Text(appUser != null ? appUser.email : "N/A"),
               decoration: BoxDecoration(color: Colors.green[300]),
               currentAccountPicture: CircleAvatar(
                 // Network would probably never go to ""... hopefully...
-                backgroundImage:
-                    user == null ? null : NetworkImage(user.photoURL ?? ""),
+                backgroundImage: appUser == null
+                    ? null
+                    : NetworkImage(appUser.photoURL ?? ""),
               ),
             ),
             ListTile(
+              enabled: appUser != null,
               leading: Icon(Icons.save),
               title: Text('Saved news'),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SavedNews()));
+                if (appUser != null) {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SavedNews()));
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: const Text(
+                        'You need to be logged in to have the bookmarked news functionality'),
+                    duration: const Duration(seconds: 1),
+                  ));
+                }
               },
             ),
             ListTile(
@@ -78,7 +93,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.public),
+              leading: Icon(Icons.home_work),
               title: Text('Local Trends'),
               onTap: () {
                 Navigator.push(context,
@@ -86,33 +101,34 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.star),
+              leading: Icon(Icons.assignment_ind),
               title: Text('Personal Hashtag'),
-              onTap: () {
+              onTap: () async {
+                // print("The user is ${appUser?.displayName}");
+                // await DatabaseService(uid: appUser!.uid)
+                //     .updateUserData({"#sampleKey": 37, "#fancyweather": 12});
+                // print("Database data sent...?");
+
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => PersonalTags()));
 
-                FirebaseAuth.instance.authStateChanges().listen((User? user) {
-                  if (user == null) {
-                    print('User is currently signed out!');
-                  } else {
-                    print('User is signed in!');
-                  }
-                });
+                // FirebaseAuth.instance.authStateChanges().listen((User? user) {
+                //   if (user == null) {
+                //     print('User is currently signed out!');
+                //   } else {
+                //     print('User is signed in!');
+                //   }
+                // });
               },
             ),
             ListTile(
-              leading: user != null ? Icon(Icons.logout) : Icon(Icons.login),
-              title: Text(user != null ? "Logout" : "Login"),
+              leading: appUser != null ? Icon(Icons.logout) : Icon(Icons.login),
+              title: Text(appUser != null ? "Logout" : "Login"),
               onTap: () async {
-                if (user != null) {
+                if (appUser != null) {
                   auth.signOut();
                 } else {
-                  AppUser? currentUser = await auth.signInWithGoogle();
-                  print("The id of user is ${currentUser?.uid}");
-                  await DatabaseService(uid: currentUser!.uid)
-                      .updateUserData({"#sampleKey": 2, "#fancyweather": 5});
-                  print("Database data sent...?");
+                  await auth.signInWithGoogle();
                 }
               },
             )
