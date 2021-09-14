@@ -33,17 +33,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    @override
-    void initState() {
-      super.initState();
-
-      context.read<NewsProvider>().updateGlobalTrends();
-      context.read<NewsProvider>().updateLocalTrends();
-    }
-
     AuthService auth = AuthService();
     final appUser = Provider.of<AppUser?>(context);
     print(appUser);
+
+    context.read<NewsProvider>().updateGlobalTrends();
+    context.read<NewsProvider>().updateLocalTrends();
 
     return Scaffold(
       appBar: AppBar(
