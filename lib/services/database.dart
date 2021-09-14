@@ -58,15 +58,14 @@ class DatabaseService {
     return userCollection.doc(uid);
   }
 
-  Stream<bool> isStorySaved(String? uid, String storyId) async* {
-    DatabaseService()
-        .userCollection
-        .doc(uid)
-        .collection("savedStories")
-        .snapshots()
-        .listen((event) {
-      // return stories.contains(storyId);
-    });
+  Future<bool> isStorySaved(String? uid, String storyId) async {
+    DocumentSnapshot<Object?> user = await userCollection.doc(uid).get();
+    Map<String, dynamic> userSaveJson = user.data() as Map<String, dynamic>;
+    print(userSaveJson);
+
+    bool isSaved = userSaveJson['savedStories'].contains(storyId);
+    print("Is it saved? well that is $isSaved");
+    return isSaved;
   }
 
   Future<List<Story>?> savedStoriesOfUser(String uid) async {

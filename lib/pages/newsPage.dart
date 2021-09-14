@@ -50,8 +50,8 @@ class _NewsPageState extends State<NewsPage> {
                       ),
                     ),
                   ),
-                  StreamBuilder<bool>(
-                      stream: DatabaseService().isStorySaved(
+                  FutureBuilder<bool>(
+                      future: DatabaseService().isStorySaved(
                           appUser?.uid, widget.story.id.toString()),
                       builder: (context, snapshot) {
                         return Opacity(
@@ -76,17 +76,19 @@ class _NewsPageState extends State<NewsPage> {
                                 } else if (snapshot.data ?? false) {
                                   // TODO: Remove story
                                 } else {
-                                  DatabaseService()
-                                      .addStory(appUser.uid, widget.story)
-                                      .then((val) {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(SnackBar(
-                                      content: const Text(
-                                          'Story sucessfully added to bookmarks'),
-                                      duration: const Duration(seconds: 1),
-                                    ));
+                                  setState(() {
+                                    DatabaseService()
+                                        .addStory(appUser.uid, widget.story)
+                                        .then((val) {
+                                      print("Dis be saved? ${snapshot.data}");
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                        content: const Text(
+                                            'Story sucessfully added to bookmarks'),
+                                        duration: const Duration(seconds: 1),
+                                      ));
+                                    });
                                   });
-                                  setState(() {});
                                 }
                               },
                               icon: Icon(

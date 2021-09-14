@@ -33,21 +33,27 @@ class _SavedNewsState extends State<SavedNews> {
             future: DatabaseService().savedStoriesOfUser(appUser!.uid),
             builder: (context, snapshot) {
               print("our saved stories are: ${snapshot.data}");
-              return Column(children: [
-                Expanded(
-                    child: ListView.builder(
-                        itemCount: snapshot.data?.length ?? 0,
-                        itemBuilder: (context, index) {
-                          if (snapshot.data != null &&
-                              snapshot.data!.length > 0) {
-                            return NewsCard(
-                              story: snapshot.data![index],
-                            );
-                          } else {
-                            return SizedBox();
-                          }
-                        })),
-              ]);
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                return Column(children: [
+                  Expanded(
+                      child: ListView.builder(
+                          itemCount: snapshot.data?.length ?? 0,
+                          itemBuilder: (context, index) {
+                            if (snapshot.data != null &&
+                                snapshot.data!.length > 0) {
+                              return NewsCard(
+                                story: snapshot.data![index],
+                              );
+                            } else {
+                              return SizedBox();
+                            }
+                          })),
+                ]);
+              }
             }));
   }
 
