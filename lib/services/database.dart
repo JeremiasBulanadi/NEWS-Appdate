@@ -31,7 +31,7 @@ class DatabaseService {
   //   });
   // }
 
-  Future<void> addStory(String? uid, Story story) async {
+  Future<void> saveStory(String? uid, Story story) async {
     var storyJson = story.toJson();
     storyJson["created"] = Timestamp.now();
 
@@ -49,6 +49,22 @@ class DatabaseService {
           .doc(story.id.toString())
           .set(story.toJson())
           .then((val) => print("Story added: ${story.id}"))
+          .catchError((err) => print(err.toString()));
+    }
+  }
+
+  Future<void> unsaveStory(String? uid, Story story) async {
+    var storyJson = story.toJson();
+    storyJson["created"] = Timestamp.now();
+
+    if (uid != null) {
+      await userCollection
+          .doc(uid)
+          .update({
+            "savedStories": FieldValue.arrayRemove([story.id.toString()])
+          })
+          .then((value) => print(
+              "${story.id} has been succesfully removed from saved stories of user $uid"))
           .catchError((err) => print(err.toString()));
     }
   }

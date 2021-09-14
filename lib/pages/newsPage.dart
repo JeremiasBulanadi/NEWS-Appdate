@@ -75,10 +75,23 @@ class _NewsPageState extends State<NewsPage> {
                                   ));
                                 } else if (snapshot.data ?? false) {
                                   // TODO: Remove story
+                                  setState(() {
+                                    DatabaseService()
+                                        .unsaveStory(appUser.uid, widget.story)
+                                        .then((val) {
+                                      print("Dis be saved? ${snapshot.data}");
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                        content: const Text(
+                                            'Story sucessfully removed from bookmarks'),
+                                        duration: const Duration(seconds: 1),
+                                      ));
+                                    });
+                                  });
                                 } else {
                                   setState(() {
                                     DatabaseService()
-                                        .addStory(appUser.uid, widget.story)
+                                        .saveStory(appUser.uid, widget.story)
                                         .then((val) {
                                       print("Dis be saved? ${snapshot.data}");
                                       ScaffoldMessenger.of(context)
