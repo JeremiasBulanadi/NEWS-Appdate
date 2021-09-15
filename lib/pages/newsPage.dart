@@ -74,7 +74,6 @@ class _NewsPageState extends State<NewsPage> {
                                     duration: const Duration(seconds: 2),
                                   ));
                                 } else if (snapshot.data ?? false) {
-                                  // TODO: Remove story
                                   setState(() {
                                     DatabaseService()
                                         .unsaveStory(appUser.uid, widget.story)

@@ -38,11 +38,17 @@ class NewsProvider with ChangeNotifier {
           userPlacemark?.isoCountryCode ?? "";
     }
 
+    // TODO: Add an edge case for when locality == subAdministrativeArea
     if (userPlacemark?.locality != null && userPlacemark?.locality != "") {
       if (userPlacemark?.subAdministrativeArea != null &&
           userPlacemark?.subAdministrativeArea != "") {
-        queryParameters["aql"] =
-            'body:("${userPlacemark!.locality}" AND "${userPlacemark.subAdministrativeArea}")';
+        if (userPlacemark?.locality != userPlacemark?.subAdministrativeArea) {
+          queryParameters["aql"] =
+              'body:("${userPlacemark!.locality}" AND "${userPlacemark.subAdministrativeArea}")';
+        } else {
+          queryParameters["aql"] =
+              'body:("${userPlacemark!.locality}" AND "${userPlacemark.administrativeArea}")';
+        }
       } else {
         queryParameters["aql"] = 'body:("${userPlacemark!.locality}")';
       }
@@ -87,6 +93,7 @@ class NewsProvider with ChangeNotifier {
     print(newsData.recommendedNews!.length);
   }
 
+  // TODO: Optimize searching
   Future<void> fetchStoriesQuery(String searchQuery) async {
     List<Story> tempNews = [];
     newsData.searchedNews = null;

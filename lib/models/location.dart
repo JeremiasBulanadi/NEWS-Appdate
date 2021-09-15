@@ -11,7 +11,7 @@ class Loc {
   }
 
   void getDetails(String loc) async {
-    print("Getting details for location: ${loc}");
+    print("Getting details for location: $loc");
     this.text = loc;
     // pesky no value strings aint gettin in my neighborhood
     if (loc != '') {

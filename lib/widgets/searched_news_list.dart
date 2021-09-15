@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../providers/news_provider.dart';
 import '../widgets/news_card.dart';
 
+// TODO: Fix Loading for search news list
 class SearchedNewsList extends StatefulWidget {
   SearchedNewsList({Key? key, this.hasSearched: false}) : super(key: key);
   bool hasSearched;
