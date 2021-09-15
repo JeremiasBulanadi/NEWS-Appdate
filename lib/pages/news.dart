@@ -26,9 +26,7 @@ class _NewsCardsState extends State<NewsCards> {
         children: [
           Padding(
             padding: EdgeInsets.only(top: 70),
-            child: Expanded(
-              child: SearchedNewsList(hasSearched: hasSearched),
-            ),
+            child: SearchedNewsList(hasSearched: hasSearched),
           ),
           Padding(
               padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
