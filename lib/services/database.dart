@@ -3,8 +3,6 @@ import '../models/aylien_data.dart';
 import 'dart:convert';
 import 'dart:async';
 
-// TODO: Fix saving
-
 class DatabaseService {
   final String? uid;
   DatabaseService({this.uid});
@@ -79,7 +77,7 @@ class DatabaseService {
     Map<String, dynamic> userSaveJson = user.data() as Map<String, dynamic>;
     print(userSaveJson);
 
-    bool isSaved = userSaveJson['savedStories'].contains(storyId);
+    bool isSaved = await userSaveJson['savedStories'].contains(storyId);
     print("Is it saved? well that is $isSaved");
     return isSaved;
   }
@@ -100,6 +98,9 @@ class DatabaseService {
         stories.add(story);
       });
     }
+
+    // This is so that the the more recent saves are the ones on top
+    stories = new List.from(stories.reversed);
 
     return stories;
   }
@@ -122,5 +123,49 @@ class DatabaseService {
       print(err.toString());
       throw err;
     }
+  }
+
+  // This is for managing hashtags
+  Future<void> hashtagCount(String? uid, List<String> storyHashtags) async {
+    DocumentSnapshot<Object?> user = await userCollection.doc(uid).get();
+    Map<String, dynamic> userJson = user.data() as Map<String, dynamic>;
+    Map<String, dynamic> userPreferences = {};
+    print("this is userJson");
+    print(userJson);
+
+    userPreferences = Map.from(await userJson['hashtagPreferences']);
+    print("this is userPreferences");
+    print(userPreferences);
+
+    for (String hashtag in storyHashtags) {
+      if (userPreferences.containsKey(hashtag)) {
+        userPreferences[hashtag] += 5;
+      } else {
+        userPreferences[hashtag] = 5;
+      }
+    }
+    print(userPreferences);
+    userPreferences.forEach((key, value) {
+      userPreferences[key] = userPreferences[key] - 1;
+    });
+
+    print("USER PREFERENCES BEFORE: $userPreferences");
+    // If you're wondering what the ".." means, its called the cascade notation in dart
+    userPreferences = Map.from(userPreferences)
+      ..removeWhere((key, value) => value <= 0);
+    print("USER PREFERENCES NOW: $userPreferences");
+
+    print(userPreferences);
+
+    // TODO: Continue hashtag preferences
+
+    // if (await userJson['hashtagPreferences'] != null) {
+    //   userPreferences = await json
+    //           .decode(json.encode(userJson['hashtagPreferences'].toString())) ??
+    //       [];
+    // }
+
+    // print("this is user preferences");
+    // print(userPreferences);
   }
 }

@@ -3,7 +3,10 @@
 // Will be replaced entirely
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:news_appdate/models/aylien_data.dart';
+import '../services/database.dart';
+import '../models/user.dart';
 import '../pages/newsPage.dart';
 
 class NewsCard extends StatelessWidget {
@@ -13,6 +16,7 @@ class NewsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppUser appUser = Provider.of<AppUser>(context);
     String placeholderImage = 'lib/assets/placeholder.jpg';
 
     return Card(
@@ -67,11 +71,17 @@ class NewsCard extends StatelessWidget {
           children: [
             FlatButton(
               textColor: Colors.blue,
-              onPressed: () => {
+              onPressed: () {
+                if (appUser != null) {
+                  print("We recordin this in the preferences");
+                  DatabaseService()
+                      .hashtagCount(appUser.uid, story.hashtags ?? []);
+                }
+
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => NewsPage(story: story)))
+                        builder: (context) => NewsPage(story: story)));
               },
               child: Text(
                 'View',
