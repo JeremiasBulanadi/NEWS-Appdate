@@ -73,6 +73,8 @@ class AuthService {
 
       AppUser? appUser = _userFromFirebaseUser(user);
 
+      await DatabaseService().createUserData(appUser?.uid);
+
       return appUser;
     } catch (err) {
       print(err.toString());

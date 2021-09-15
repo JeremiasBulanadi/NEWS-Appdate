@@ -16,7 +16,7 @@ class NewsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AppUser appUser = Provider.of<AppUser>(context);
+    AppUser? appUser = Provider.of<AppUser?>(context);
     String placeholderImage = 'lib/assets/placeholder.jpg';
 
     return Card(

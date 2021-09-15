@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/aylien_data.dart';
-import 'dart:convert';
 import 'dart:async';
 
 class DatabaseService {
@@ -14,6 +13,15 @@ class DatabaseService {
   // collection reference
   final CollectionReference storiesCollection =
       FirebaseFirestore.instance.collection('stories');
+
+  Future createUserData(String? uid) async {
+    if (uid != null) {
+      return await userCollection.doc(uid).set({
+        'hashtagPreferences': {},
+        'savedStories': [],
+      });
+    }
+  }
 
   Future updateUserData(
       Map<String, int> hashtagPreferences, List<String> savedStories) async {
@@ -34,6 +42,9 @@ class DatabaseService {
     storyJson["created"] = Timestamp.now();
 
     if (uid != null) {
+      var doc = userCollection.doc(uid).get();
+      //if (await doc.get())
+
       await userCollection
           .doc(uid)
           .update({
