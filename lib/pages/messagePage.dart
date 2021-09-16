@@ -8,7 +8,7 @@ class MessagePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String message =
-        "DISCLAIMER\n\nThis is an experimental prototype that makes use of News Scraping, Natural Language Processing, and Geocoding to extract metadata based on its content. We cannot guarantee 100% accuracy with the findings. Please double check the official sources and use at your own discretion";
+        "DISCLAIMER\n\nThis is a working prototype that makes use of News Scraping, Natural Language Processing, and Geocoding to extract data based on its content. Please double check the official sources and use at your own discretion";
 
     return Scaffold(
       body: Column(
