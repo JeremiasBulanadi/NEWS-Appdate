@@ -78,11 +78,17 @@ class AylienData {
             // print(this.stories![i].entities![j].body!.surfaceForms![0].text);
 
             // Instantiates the filtered entity and stores it in the locations array
-            locations.add(
-                Loc(this.stories![i].entities![j].body!.surfaceForms![0].text));
+            locations.add(Loc(
+                text:
+                    this.stories![i].entities![j].body!.surfaceForms![0].text));
           }
         }
       }
+      // This is for rework
+      for (Loc loc in locations) {
+        loc.getDetails();
+      }
+
       // adds the locations values for the story's locations property
       this.stories![i].locations = locations == null ? [] : locations;
     }
@@ -105,31 +111,31 @@ bool isSpecificLocation(List<String>? types) {
 }
 
 class Story {
-  Story({
-    required this.author,
-    required this.body,
-    required this.categories,
-    required this.industries,
-    required this.charactersCount,
-    required this.clusters,
-    required this.entities,
-    required this.hashtags,
-    required this.id,
-    required this.keywords,
-    required this.language,
-    required this.links,
-    required this.media,
-    required this.paragraphsCount,
-    required this.publishedAt,
-    required this.sentencesCount,
-    required this.sentiment,
-    required this.socialSharesCount,
-    required this.source,
-    required this.summary,
-    required this.title,
-    required this.wordsCount,
-    required this.licenseType,
-  });
+  Story(
+      {required this.author,
+      required this.body,
+      required this.categories,
+      required this.industries,
+      required this.charactersCount,
+      required this.clusters,
+      required this.entities,
+      required this.hashtags,
+      required this.id,
+      required this.keywords,
+      required this.language,
+      required this.links,
+      required this.media,
+      required this.paragraphsCount,
+      required this.publishedAt,
+      required this.sentencesCount,
+      required this.sentiment,
+      required this.socialSharesCount,
+      required this.source,
+      required this.summary,
+      required this.title,
+      required this.wordsCount,
+      required this.licenseType,
+      this.locations});
 
   Author? author;
   String? body;
@@ -184,6 +190,9 @@ class Story {
         title: json["title"],
         wordsCount: json["words_count"],
         licenseType: json["license_type"],
+        locations: json["locations"] == null
+            ? null
+            : List<Loc>.from(json["locations"].map((x) => Loc.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {

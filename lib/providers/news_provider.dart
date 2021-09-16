@@ -63,6 +63,10 @@ class NewsProvider with ChangeNotifier {
 
     if (newsData.aylienData?.nextPageCursor == null) {
       print("AYLIEN API ERROR: This shit empty");
+    } else if (newsData.aylienData!.stories!.length == 0) {
+      print("Pfft, no place in this area specifically");
+      queryParameters["aql"] = 'body:("${userPlacemark!.locality}")';
+      newsData.aylienData = await fetchAylienNews(queryParameters);
     }
 
     newsData.aylienData!

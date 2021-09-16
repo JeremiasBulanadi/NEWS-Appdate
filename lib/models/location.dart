@@ -3,20 +3,25 @@ import 'package:geocoding/geocoding.dart';
 import '../services/geocoding.dart';
 
 class Loc {
-  Loc(String loc) {
-    // latlng = null;
-    // placemark = null;
-    // addressFromPlacemark = null;
-    getDetails(loc);
-  }
+  Loc({
+    required this.text,
+    this.latlng,
+    this.placemark,
+    this.addressFromPlacemark: "",
+    //getDetails(this.text);
+  });
 
-  void getDetails(String loc) async {
-    print("Getting details for location: $loc");
-    this.text = loc;
+  String text;
+  Location? latlng;
+  Placemark? placemark;
+  String? addressFromPlacemark;
+
+  void getDetails() async {
+    print("Getting details for location: $this.text");
     // pesky no value strings aint gettin in my neighborhood
-    if (loc != '') {
+    if (this.text != '') {
       // We're not guaranteed that the entity is actually a place so this might give out null
-      this.latlng = await getLatLng(loc);
+      this.latlng = await getLatLng(this.text);
       // Just like latlng, null is a possibility
       this.placemark =
           await getPlacemark(this.latlng?.latitude, this.latlng?.longitude);
@@ -26,17 +31,19 @@ class Loc {
           this.addressFromPlacemark =
               "${this.placemark?.subThoroughfare} ${this.placemark?.thoroughfare} ${this.placemark?.subLocality} ${this.placemark?.locality} ${this.placemark?.subAdministrativeArea} ${this.placemark?.administrativeArea} ${this.placemark?.country}";
         } catch (err) {
-          this.addressFromPlacemark = null;
+          this.addressFromPlacemark = "N/A";
           print(err);
         }
       } else {
-        this.addressFromPlacemark = null;
+        this.addressFromPlacemark = "N/A";
       }
     }
   }
 
-  late String text;
-  late Location? latlng;
-  late Placemark? placemark;
-  late String? addressFromPlacemark;
+  factory Loc.fromJson(Map<String, dynamic> json) => Loc(
+        text: json["text"],
+        latlng: Location.fromMap(json["latlng"]),
+        placemark: Placemark.fromMap(json["placemark"]),
+        addressFromPlacemark: json["addressFromPlacemark"],
+      );
 }

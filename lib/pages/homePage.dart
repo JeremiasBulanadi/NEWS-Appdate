@@ -16,7 +16,8 @@ import 'personaltagPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../providers/news_provider.dart';
 
-// TODO: getLocationalNews is calling 3 times on startup, fix that
+// TODO?: getLocationalNews is calling 3 times on startup, fix that
+// TODO: Disable personal trends when not logged in
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);

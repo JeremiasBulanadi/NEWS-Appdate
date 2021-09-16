@@ -17,7 +17,7 @@ class _PersonalTagsState extends State<PersonalTags> {
     var personalTrends = context.watch<NewsProvider>().trendData.localTrends;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Local Trends'),
+        title: Text('Personal Trends'),
         backgroundColor: Colors.green[400],
       ),
       body: Column(
