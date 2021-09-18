@@ -623,11 +623,11 @@ class Source {
     required this.logoUrl,
   });
 
-  String domain;
-  String homePageUrl;
-  int id;
+  String? domain;
+  String? homePageUrl;
+  int? id;
   List<Location>? locations;
-  String name;
+  String? name;
   Rankings? rankings;
   List<Scope>? scopes;
   String? logoUrl;
@@ -666,18 +666,18 @@ class Location {
   });
 
   String? city;
-  String country;
+  String? country;
   String? state;
 
   factory Location.fromJson(Map<String, dynamic> json) => Location(
         city: json["city"] == null ? null : json["city"],
-        country: json["country"],
+        country: json["country"] == null ? null : json["country"],
         state: json["state"] == null ? null : json["state"],
       );
 
   Map<String, dynamic> toJson() => {
         "city": city == null ? null : city,
-        "country": country,
+        "country": country == null ? null : country,
         "state": state == null ? null : state,
       };
 }
@@ -706,7 +706,7 @@ class Alexa {
   });
 
   DateTime? fetchedAt;
-  int rank;
+  int? rank;
   String? country;
 
   factory Alexa.fromJson(Map<String, dynamic> json) => Alexa(
@@ -729,7 +729,7 @@ class Scope {
   });
 
   String? country;
-  String level;
+  String? level;
 
   factory Scope.fromJson(Map<String, dynamic> json) => Scope(
         country: json["country"],
