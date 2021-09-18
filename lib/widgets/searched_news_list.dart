@@ -5,7 +5,7 @@ import '../widgets/news_card.dart';
 
 // TODO: Fix Loading for search news list
 class SearchedNewsList extends StatefulWidget {
-  SearchedNewsList({Key? key, this.hasSearched: false}) : super(key: key);
+  SearchedNewsList({Key? key, required this.hasSearched}) : super(key: key);
   bool hasSearched;
 
   @override
@@ -20,14 +20,12 @@ class _SearchedNewsListState extends State<SearchedNewsList> {
     print("searchedNews: $searchedNews\nhasSearched: ${widget.hasSearched}");
 
     if (searchedNews == null) {
-      if (widget.hasSearched) {
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      } else {
-        return SizedBox();
-      }
+      print("null");
+      return Center(
+        child: CircularProgressIndicator(),
+      );
     } else if (searchedNews.length == 0) {
+      print("There is no search");
       return Center(
         child: Text("No Results Found"),
       );
