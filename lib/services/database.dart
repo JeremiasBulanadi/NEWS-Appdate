@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/aylien_data.dart';
 import 'dart:async';
+import 'dart:collection';
 
 class DatabaseService {
   final String? uid;
@@ -142,7 +143,7 @@ class DatabaseService {
     //     }
     //   });
     // }
-    //stories = new List.from(stories.reversed);
+    stories = new List.from(stories.reversed);
     return stories;
   }
 
@@ -170,13 +171,13 @@ class DatabaseService {
   Future<void> hashtagCount(String? uid, List<String> storyHashtags) async {
     DocumentSnapshot<Object?> user = await userCollection.doc(uid).get();
     Map<String, dynamic> userJson = user.data() as Map<String, dynamic>;
-    Map<String, dynamic> userPreferences = {};
+    Map<String, dynamic> userPreferences = userJson['hashtagPreferences'] ?? {};
     print("this is userJson");
     print(userJson);
 
     userPreferences = Map.from(await userJson['hashtagPreferences']);
-    print("this is userPreferences");
-    print(userPreferences);
+    // print("this is userPreferences");
+    // print(userPreferences);
 
     for (String hashtag in storyHashtags) {
       if (userPreferences.containsKey(hashtag)) {
@@ -185,20 +186,22 @@ class DatabaseService {
         userPreferences[hashtag] = 5;
       }
     }
-    print(userPreferences);
+    // print(userPreferences);
     userPreferences.forEach((key, value) {
-      userPreferences[key] = userPreferences[key] - 1;
+      userPreferences[key] = userPreferences[key] - 2;
     });
 
-    print("USER PREFERENCES BEFORE: $userPreferences");
+    // print("USER PREFERENCES BEFORE: $userPreferences");
     // If you're wondering what the ".." means, its called the cascade notation in dart
     userPreferences = Map.from(userPreferences)
       ..removeWhere((key, value) => value <= 0);
-    print("USER PREFERENCES NOW: $userPreferences");
+    // print("USER PREFERENCES NOW: $userPreferences");
 
     print(userPreferences);
 
-    // TODO: Continue hashtag preferences
+    await userCollection
+        .doc(uid)
+        .update({"hashtagPreferences": userPreferences});
 
     // if (await userJson['hashtagPreferences'] != null) {
     //   userPreferences = await json
@@ -208,5 +211,52 @@ class DatabaseService {
 
     // print("this is user preferences");
     // print(userPreferences);
+  }
+
+  Future<LinkedHashMap<String, int>> getTopPreferences(String uid) async {
+    LinkedHashMap<String, int> topPreferences =
+        new LinkedHashMap<String, int>();
+
+    DocumentSnapshot<Object?> user = await userCollection.doc(uid).get();
+    Map<String, dynamic> userJson = user.data() as Map<String, dynamic>;
+    Map<String, dynamic> userPreferences = userJson['hashtagPreferences'] ?? {};
+
+    List<dynamic> sortedKeys = userPreferences.keys.toList(growable: false)
+      ..sort((k1, k2) => userPreferences[k2].compareTo(userPreferences[k1]));
+
+    print(sortedKeys);
+
+    LinkedHashMap<String, int> sortedMap = new LinkedHashMap.fromIterable(
+        sortedKeys.take(10),
+        key: (k) => k,
+        value: (k) => userPreferences[k]);
+    print(sortedMap);
+
+    topPreferences = sortedMap;
+
+    return topPreferences;
+  }
+
+  Future<LinkedHashMap<String, int>> getPreferences(String uid) async {
+    LinkedHashMap<String, int> preferences = new LinkedHashMap<String, int>();
+
+    DocumentSnapshot<Object?> user = await userCollection.doc(uid).get();
+    Map<String, dynamic> userJson = user.data() as Map<String, dynamic>;
+    Map<String, dynamic> userPreferences = userJson['hashtagPreferences'] ?? {};
+
+    List<dynamic> sortedKeys = userPreferences.keys.toList(growable: false)
+      ..sort((k1, k2) => userPreferences[k2].compareTo(userPreferences[k1]));
+
+    print(sortedKeys);
+
+    LinkedHashMap<String, int> sortedMap = new LinkedHashMap.fromIterable(
+        sortedKeys,
+        key: (k) => k,
+        value: (k) => userPreferences[k]);
+    print(sortedMap);
+
+    preferences = sortedMap;
+
+    return preferences;
   }
 }

@@ -108,8 +108,10 @@ class _HomePageState extends State<HomePage> {
                 //     .updateUserData({"#sampleKey": 37, "#fancyweather": 12});
                 // print("Database data sent...?");
 
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => PersonalTags()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PersonalTags(uid: appUser!.uid)));
 
                 // FirebaseAuth.instance.authStateChanges().listen((User? user) {
                 //   if (user == null) {
