@@ -99,6 +99,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
+              enabled: appUser != null,
               leading: Icon(Icons.assignment_ind),
               title: Text('Personal Hashtag'),
               onTap: () async {

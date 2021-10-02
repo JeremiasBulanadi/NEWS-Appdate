@@ -139,6 +139,12 @@ class _MapPageState extends State<MapPage> {
     ));
 
     setMarkers();
+
+    bool hasInitiallyCentered = false;
+    if (!hasInitiallyCentered) {
+      Future.delayed(Duration(milliseconds: 1000), focusOnUser);
+      hasInitiallyCentered = true;
+    }
     return Scaffold(
       body: Stack(
         children: [
