@@ -32,12 +32,12 @@ class _SavedNewsState extends State<SavedNews> {
         body: FutureBuilder<List<Story>?>(
             future: DatabaseService().savedStoriesOfUser(appUser!.uid),
             builder: (context, snapshot) {
-              print("our saved stories are: ${snapshot.data}");
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
                   child: CircularProgressIndicator(),
                 );
               } else {
+                print("We got our stories: ${snapshot.data}");
                 return Column(children: [
                   Expanded(
                       child: ListView.builder(

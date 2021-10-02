@@ -70,7 +70,7 @@ class _NewsPageState extends State<NewsPage> {
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(SnackBar(
                                     content: const Text(
-                                        'There was an error, please try again'),
+                                        'There was an error, please try logging in and out again'),
                                     duration: const Duration(seconds: 2),
                                   ));
                                 } else if (snapshot.data ?? false) {

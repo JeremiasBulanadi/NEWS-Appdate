@@ -42,8 +42,60 @@ class Loc {
 
   factory Loc.fromJson(Map<String, dynamic> json) => Loc(
         text: json["text"],
-        latlng: Location.fromMap(json["latlng"]),
-        placemark: Placemark.fromMap(json["placemark"]),
+        latlng: latlngFromJson(json["latlng"]),
+        placemark: placemarkFromJson(json["placemark"]),
         addressFromPlacemark: json["addressFromPlacemark"],
       );
+
+  Map<String, dynamic> toJson() => {
+        "text": text,
+        "latlng": latlngtoJson(latlng),
+        "placemark": placemarkToJson(placemark),
+        "addressFromPlacemark": addressFromPlacemark
+      };
+
+  static Location? latlngFromJson(Map<String, dynamic> json) {
+    if (json["latitude"] == null || json["longitude"] == null) {
+      return null;
+    } else {
+      return Location(
+        latitude: json["latitude"],
+        longitude: json["longitude"],
+        timestamp: new DateTime.fromMillisecondsSinceEpoch(json["timestamp"]),
+      );
+    }
+  }
+
+  Map<String, dynamic> latlngtoJson(Location? latlng) => {
+        "latitude": latlng?.latitude == null ? null : latlng?.latitude,
+        "longitude": latlng?.longitude == null ? null : latlng?.longitude,
+        "timestamp": latlng?.timestamp.millisecondsSinceEpoch
+      };
+
+  static Placemark placemarkFromJson(Map<String, dynamic> json) => Placemark(
+      name: json["name"],
+      street: json["street"],
+      isoCountryCode: json["isoCountryCode"],
+      country: json["country"],
+      postalCode: json["postalCode"],
+      administrativeArea: json["administrativeArea"],
+      subAdministrativeArea: json["subAdministrativeArea"],
+      locality: json["locality"],
+      subLocality: json["subLocality"],
+      thoroughfare: json["thoroughfare"],
+      subThoroughfare: json["subThoroughfare"]);
+
+  Map<String, dynamic> placemarkToJson(Placemark? placemark) => {
+        "name": placemark?.name,
+        "street": placemark?.street,
+        "isoCountryCode": placemark?.isoCountryCode,
+        "country": placemark?.country,
+        "postalCode": placemark?.postalCode,
+        "administrativeArea": placemark?.administrativeArea,
+        "subAdministrativeArea": placemark?.subAdministrativeArea,
+        "locality": placemark?.locality,
+        "subLocality": placemark?.subLocality,
+        "thoroughfare": placemark?.thoroughfare,
+        "subThoroughfare": placemark?.subThoroughfare
+      };
 }

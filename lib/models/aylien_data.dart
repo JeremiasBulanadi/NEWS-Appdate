@@ -219,6 +219,7 @@ class Story {
         "title": title,
         "words_count": wordsCount,
         "license_type": licenseType,
+        "locations": List<dynamic>.from(locations!.map((x) => x.toJson()))
       };
 }
 

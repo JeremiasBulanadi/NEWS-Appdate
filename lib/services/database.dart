@@ -96,23 +96,53 @@ class DatabaseService {
   Future<List<Story>?> savedStoriesOfUser(String uid) async {
     DocumentSnapshot<Object?> user = await userCollection.doc(uid).get();
     Map<String, dynamic> userSaveJson = user.data() as Map<String, dynamic>;
-    print(userSaveJson);
+    List<int> userSaves = [];
+    userSaveJson['savedStories']
+        .forEach((val) => userSaves.add(int.parse(val)));
+    print("This is our user saves:");
+    print(userSaves);
     //storyIds.addAll(); // This thing stops code flow for some reason
 
     List<Story> stories = [];
 
-    for (String id in userSaveJson['savedStories']) {
-      await storiesCollection.doc(id).get().then((value) {
-        Story story;
-        Map<String, dynamic> storyJson = value.data() as Map<String, dynamic>;
-        story = Story.fromJson(storyJson);
-        stories.add(story);
-      });
-    }
+    await storiesCollection.where("id", whereIn: userSaves).get().then((value) {
+      var values = value.docs.map((element) => element.data()).toList();
+      print(values);
+      var example = Story.fromJson(values[0] as Map<String, dynamic>);
+      print(example);
+      print("ya");
+      stories = values
+          .map((story) => Story.fromJson(story as Map<String, dynamic>))
+          .toList();
+      print("be");
+      print(stories.length);
 
-    // This is so that the the more recent saves are the ones on top
-    stories = new List.from(stories.reversed);
+      print("The saved stories ready to be returned are ");
+      print(stories);
+      // This is so that the the more recent saves are the ones on top
+    });
 
+    // Story story = Story.fromJson(element.data() as Map<String, dynamic>);
+    // stories.add(story);
+
+    // print(userSaveJson['savedStories']);
+    // for (String id in await userSaveJson['savedStories']) {
+    //   await storiesCollection.doc(id).get().then((DocumentSnapshot value) {
+    //     //Story story;
+    //     if (value.exists) {
+    //       Map<String, dynamic> storyJson = value.data() as Map<String, dynamic>;
+    //       storyJson.forEach((key, value) {
+    //         print(key);
+    //       });
+    //       //print(storyJson);
+    //       print(1);
+    //       stories.add(Story.fromJson(storyJson));
+    //     } else {
+    //       print("Value does not exist");
+    //     }
+    //   });
+    // }
+    //stories = new List.from(stories.reversed);
     return stories;
   }
 
