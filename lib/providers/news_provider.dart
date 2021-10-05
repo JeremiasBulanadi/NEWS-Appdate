@@ -148,7 +148,7 @@ class NewsProvider with ChangeNotifier {
 
     Map<String, String> queryParameters = {
       "language": "en",
-      "aql": 'body:("$searchQuery")'
+      "aql": 'title:("$searchQuery")'
     };
     AylienData? aylienQueryData = await fetchAylienNews(queryParameters);
     for (Story story in aylienQueryData.stories ?? []) {
