@@ -17,10 +17,15 @@ class DatabaseService {
 
   Future createUserData(String? uid) async {
     if (uid != null) {
-      return await userCollection.doc(uid).set({
-        'hashtagPreferences': {},
-        'savedStories': [],
-      });
+      userCollection.doc(uid).get().then((value) => {
+            if (!value.exists)
+              {
+                userCollection.doc(uid).set({
+                  'hashtagPreferences': {},
+                  'savedStories': [],
+                })
+              }
+          });
     }
   }
 

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:provider/provider.dart';
 import '../models/aylien_data.dart';
 import '../models/aylien_trends.dart';
+import '../models/user.dart';
+import '../services/database.dart';
 import '../services/api_call.dart';
 import '../services/geocoding.dart';
 
@@ -80,16 +83,56 @@ class NewsProvider with ChangeNotifier {
     print(newsData.locationalNews!.length);
   }
 
-  Future<void> updateRecommendedNews() async {
-    newsData.recommendedNews = null;
-    newsData.aylienData = await fetchAylienNews(
-        {}); // {} Empty map, put some contents for the query
-    newsData.aylienData!
-        .getNewsLocations(); // Heavy work, this is. Locks threads, it does.
-    newsData.recommendedNews = [];
-    newsData.recommendedNews!.addAll(newsData.aylienData!.stories ?? []);
+  Future<void> updateRecommendedNews(context) async {
+    final appUser = Provider.of<AppUser?>(context, listen: false);
 
-    // TODO: Recommender System here needed
+    newsData.recommendedNews = null;
+
+    if (appUser != null) {
+      Map<String, int> userTopPreferences =
+          await DatabaseService().getTopPreferences(appUser.uid);
+
+      List<String> topPreferences = [];
+
+      userTopPreferences.forEach((val, key) {
+        String temp = val;
+        temp = temp.replaceAll("#", "");
+        temp = temp.replaceAllMapped(RegExp(r'(?<![A-Z])[A-Z]'), (match) {
+          return " ${match.group(0)}";
+        });
+        temp = temp.trim();
+        topPreferences.add(temp);
+      });
+
+      List<Story> recommendedStories = [];
+      List<int> recommendedStoriesIds = [];
+
+      for (var preference in topPreferences) {
+        newsData.aylienData = await fetchAylienNews(
+            {"language": "en", "aql": 'body:("$preference")'});
+
+        for (Story story in newsData.aylienData?.stories ?? []) {
+          if (!recommendedStoriesIds.contains(story.id)) {
+            story.getNewsLocations();
+            recommendedStories.add(story);
+            recommendedStoriesIds.add(story.id);
+            break;
+          }
+        }
+      }
+
+      newsData.recommendedNews = recommendedStories;
+    } else {
+      newsData.aylienData = await fetchAylienNews(
+          {"language": "en"}); // {} Empty map, put some contents for the query
+      newsData.aylienData!
+          .getNewsLocations(); // Heavy work, this is. Locks threads, it does.
+      newsData.recommendedNews = [];
+      newsData.recommendedNews!.addAll(newsData.aylienData!.stories ?? []);
+
+      // TODO: Recommender System here needed
+
+    }
 
     notifyListeners();
     // FOR TESTING ONLY
