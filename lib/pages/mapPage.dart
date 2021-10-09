@@ -178,6 +178,57 @@ class _MapPageState extends State<MapPage> {
                   // }
                 }),
           ),
+          Positioned(
+              bottom: 30,
+              left: 5,
+              child: Container(
+                  width: 175,
+                  height: 65,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                                height: 10,
+                                width: 10,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.pinkAccent,
+                                )),
+                            Text("\t\tNearby News")
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Container(
+                                height: 10,
+                                width: 10,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.blueAccent,
+                                )),
+                            Text("\t\tSearched News")
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Container(
+                                height: 10,
+                                width: 10,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.greenAccent,
+                                )),
+                            Text("\t\tRecommended News")
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  decoration:
+                      BoxDecoration(color: Color.fromARGB(50, 10, 10, 10)))),
         ],
       ),
     );
