@@ -6,9 +6,11 @@ The application was made using the Flutter development kit, Firebase, and AYLIEN
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-![NEWS Appdate Screenshot 1](/images/screenshot1.png)
-![NEWS Appdate Screenshot 2](/images/screenshot2.png)
-![NEWS Appdate Screenshot 1](/images/screenshot1.png)
+<p float="left">
+<img src="/images/screenshot1.png" alt="NEWS-Appdate Screenshot 1" width="200" />
+<img src="/images/screenshot2.png" alt="NEWS-Appdate Screenshot 2" width="200" /> 
+<img src="/images/screenshot3.png" alt="NEWS-Appdate Screenshot 3" width="200" />
+</p>
 
 The app makes use of found NER tokens that are categorized as specific locations from scraped news articles and then pinpoints where they occured on a map user interface.
 
