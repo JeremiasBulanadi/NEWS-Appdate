@@ -1,4 +1,4 @@
-# Bloggeon
+# NEWS-Appdate
 
 An android app that geolocates news based on Named-Entity Recognition (NER) and Natural Language Processing (NLP).
 The application was made using the Flutter development kit, Firebase, and AYLIEN API.
